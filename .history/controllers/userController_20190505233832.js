@@ -27,7 +27,7 @@ const createUser = (req,res,next)=>{
             company: req.body.companyId,
             poste:req.body.poste,
             role: req.body.role,
-            phone: req.body.phone
+            role: req.body.role
         });
         user.save().then(result=>{
             res.status(201).json({
