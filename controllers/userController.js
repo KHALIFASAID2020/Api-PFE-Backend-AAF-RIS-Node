@@ -7,10 +7,29 @@ const bcrypt =require('bcrypt');
 const {User,validate} = require('../models/User');
 const {Company} = require('../models/Company');
 
-
+const nodeMailer = require('nodemailer');
 
 const createUser = (req,res,next)=>{
+    const transporter = nodeMailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,  //true for 465 port, false for other ports
+        auth: {
+          user: 'aaf.ris.manager.2020@gmail.com',
+          pass: 'aaf.ris.manager.2020aaf.ris.manager.2020'
+        }
+      });
+
+     
+
+
     const { error }= validate(req.body);
+
+    let subject = 'Welcome to the A.A.F Production Quality Portal platform'
+    let htmlEmail = 'Hi '+req.body.firstname+'  '+req.body.lastname+' , You can access in our quality management area (http://localhost:4200/) with your email: '+req.body.email+' and password: '+req.body.password;
+
+
+
     if(error) return res.status(400).send(error.details[0].message);
 
     const company = Company.findById(req.body.companyId);
@@ -30,6 +49,21 @@ const createUser = (req,res,next)=>{
             phone: req.body.phone
         });
         user.save().then(result=>{
+            const mailOptions = {
+                from: '"AAF Tunisien Quality Portal" <aaf.ris.manager.2020@gmail.com>', // sender address
+                to: req.body.email, // list of receivers
+                subject: subject, // Subject line
+                text: htmlEmail, // plain text body
+               // html: htmlEmail // html body
+              };
+              transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                  console.log(error);
+                  res.status(400).send({success: false})
+                } else {
+                  res.status(200).send({success: true});
+                }
+              });
             res.status(201).json({
                 message : 'User Created',
                 result: result

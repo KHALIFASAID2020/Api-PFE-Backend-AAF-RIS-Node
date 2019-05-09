@@ -4,7 +4,7 @@ const authorize = require('../_helpers/authorize');
 //var Role = require('../_helpers/role');
 var companyController = require('../controllers/companyController')
 /* GET users listing. */
-router.get('/',authorize("Admin"),companyController.getAllCompany);
+router.get('/',companyController.getAllCompany);
 router.post('/AddCompany',authorize("Admin"),companyController.createComapny);
 router.delete('/:id',authorize("Admin"),companyController.deleteCompany);
 router.get('/:id',authorize("Admin"),companyController.getById);

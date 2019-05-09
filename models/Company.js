@@ -9,6 +9,9 @@ const CompanySchema = new mongoose.Schema({
     companyAddress:{
         type : String,
         required:true,
+    },type:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Type'
     },
     compnayPhone:{
         type: String

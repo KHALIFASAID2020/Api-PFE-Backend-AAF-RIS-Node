@@ -11,7 +11,7 @@ if(company){
 }
 });
 //res.send(company);
-}
+}//aaf.ris.manager.2020
 
 const getById = (req,res,next)=>{
 Company.findById(req.params.id).then(company=>{
@@ -68,6 +68,7 @@ const { error }= validate(req.body);
 if(error) return res.status(400).send(error.details[0].message);
 
 const company = Company.findByIdAndUpdate(req.params.id,{
+    companyName : req.body.companyName,
     companyAddress:req.body.companyAddress,
     compnayPhone:req.body.compnayPhone,
     companyFax:req.body.companyFax,

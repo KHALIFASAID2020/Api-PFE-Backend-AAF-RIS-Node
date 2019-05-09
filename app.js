@@ -6,7 +6,10 @@ const logger = require('morgan');
 const cors =require ('cors');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const produitRouter =require('./routes/produit');
+const typeCompanyRouter = require('./routes/type');
 const companyRouter = require('./routes/company');
+const defautRouter = require('./routes/defaut');
 const errorHandler = require('./_helpers/errorHandler');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -34,6 +37,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/company', companyRouter);
+app.use('/produit', produitRouter);
+app.use('/defaut', defautRouter);
+app.use('/typecompany',typeCompanyRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -50,5 +57,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-app.listen('3000','192.168.137.4');
+app.listen('3000','localhost');
 module.exports = app;

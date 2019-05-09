@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 const Joi =require('joi');
 const {Company} = require('./Company');
+const nodeMailer = require('nodemailer');
 
 const userSchema = new mongoose.Schema({
     email : {
