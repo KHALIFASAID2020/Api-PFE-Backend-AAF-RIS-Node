@@ -7,7 +7,14 @@ const cors =require ('cors');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const produitRouter =require('./routes/produit');
-const typeCompanyRouter = require('./routes/type');
+const reclamationRouter = require('./routes/reclamation');
+const documentStansarisationRouter = require('./routes/documentStansarisation');
+
+const typeActionRouter = require('./routes/typeAction');
+
+
+
+const typeCompanyRouter =require('./routes/typeCompany');
 const companyRouter = require('./routes/company');
 const defautRouter = require('./routes/defaut');
 const errorHandler = require('./_helpers/errorHandler');
@@ -39,10 +46,13 @@ app.use('/users', usersRouter);
 app.use('/company', companyRouter);
 app.use('/produit', produitRouter);
 app.use('/defaut', defautRouter);
-app.use('/typecompany',typeCompanyRouter);
+app.use('/typeCompany', typeCompanyRouter);
+app.use('/reclamation',reclamationRouter);
+app.use('/documentStansarisation',documentStansarisationRouter);
+app.use('/typeAction',typeActionRouter);
 
 
-// catch 404 and forward to error handler
+// catch 404 and forward to error handler.
 app.use(function(req, res, next) {
   next(createError(404));
 });

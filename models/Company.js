@@ -9,9 +9,6 @@ const CompanySchema = new mongoose.Schema({
     companyAddress:{
         type : String,
         required:true,
-    },type:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'Type'
     },
     compnayPhone:{
         type: String
@@ -27,7 +24,12 @@ const CompanySchema = new mongoose.Schema({
     },
     companyCountry:{
         type:String
-    }
+    },
+    companyType: { 
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Typecompany'
+      }
+    
 
 });
 CompanySchema.plugin(uniqueValidator);
@@ -42,11 +44,12 @@ function validateCompany(company){
         companyFax:Joi.string(),
         companyWebsite:Joi.string(),
         companyInfo:Joi.string(),
-        companyCountry:Joi.string()
+        companyCountry:Joi.string(),
+        companyTypeId:Joi.string()
     };
     return Joi.validate(company,schema);
 }
-exports.CompanySchema = CompanySchema;
+
 
 exports.Company = Company;
 exports.validate=validateCompany;

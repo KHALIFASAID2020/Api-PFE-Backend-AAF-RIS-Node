@@ -10,7 +10,7 @@ const ProduitSchema = new mongoose.Schema({
         type : String,
         required:true,
     },
-    Company:{
+    company:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Company'
     }
@@ -19,15 +19,15 @@ ProduitSchema.plugin(uniqueValidator);
 
 const Produit = mongoose.model('Produit',ProduitSchema);
 
-function validateProduit(Produit){
+function validateProduit(produit){
     const schema = {
         RefProduit : Joi.string().required(),
         DesignationProduit:Joi.string().required(),
         companyId:Joi.string().required()
     };
-    return Joi.validate(Produit,schema);
+    return Joi.validate(produit,schema);
 }
-exports.ProduitSchema = ProduitSchema;
+
 
 exports.Produit = Produit;
 exports.validate=validateProduit;

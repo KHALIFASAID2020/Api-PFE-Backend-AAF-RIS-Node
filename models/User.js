@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 const Joi =require('joi');
-const {Company} = require('./Company');
-const nodeMailer = require('nodemailer');
+
 
 const userSchema = new mongoose.Schema({
     email : {
@@ -19,9 +18,6 @@ const userSchema = new mongoose.Schema({
     firstname:{
         type : String,
         required:true,
-    },company : {
-            type:mongoose.Schema.Types.ObjectId,
-            ref:'Company'
     },
     poste:{
         type : String,
@@ -34,7 +30,11 @@ const userSchema = new mongoose.Schema({
     role:{
         type : String,
         required:true,
-    }
+    },
+    company: { 
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Company'
+      }
 
 },{
     timestamps : true
@@ -49,14 +49,10 @@ function validateUser(user){
         password:Joi.string().required(),
         lastname:Joi.string().required(),
         firstname:Joi.string().required(),
-        companyId:Joi.string().required(),
         poste:Joi.string().required(),
         role:Joi.string().required(),
         phone:Joi.string().required(),
-
-
-
-
+        companyId: Joi.string().required(),
     };
     return Joi.validate(user,schema);
 }

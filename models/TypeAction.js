@@ -2,25 +2,25 @@ const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 const Joi =require('joi');
 
-const TypecompanySchema = new mongoose.Schema({
-    type_company : {
+const TypeActionSchema = new mongoose.Schema({
+    TypeAction : {
         type: String, required: true,unique:true
     }
 });
-TypecompanySchema.plugin(uniqueValidator);
+TypeActionSchema.plugin(uniqueValidator);
 
-const Typecompany = mongoose.model('Typecompany',TypecompanySchema);
+const TypeAction = mongoose.model('TypeAction',TypeActionSchema);
 
-function validateCompany(company){
+function validateDocument(typeaction){
     const schema = {
-        type_company : Joi.string().required()
+        TypeAction : Joi.string().required()
     };
-    return Joi.validate(company,schema);
+    return Joi.validate(typeaction,schema);
 }
 
 
-exports.Typecompany = Typecompany;
-exports.validate=validateCompany;
+exports.TypeAction = TypeAction;
+exports.validate=validateDocument;
 /* 
 const Schema = mongoose.Schema;
 

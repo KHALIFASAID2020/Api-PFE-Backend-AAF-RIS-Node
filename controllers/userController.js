@@ -1,16 +1,16 @@
 const userService = require('../service/userService');
+const {Company} = require('../models/Company');
 //const authorize = require('_helpers/authorize')
 // routes
 const jwt = require('jsonwebtoken');
 //const User = require('../models/User');
 const bcrypt =require('bcrypt');
 const {User,validate} = require('../models/User');
-const {Company} = require('../models/Company');
 
 const nodeMailer = require('nodemailer');
 
-const createUser = (req,res,next)=>{
-    const transporter = nodeMailer.createTransport({
+const createUser = async (req,res,next)=>{
+   const transporter = nodeMailer.createTransport({
         host: 'smtp.gmail.com',
         port: 465,
         secure: true,  //true for 465 port, false for other ports
@@ -23,16 +23,17 @@ const createUser = (req,res,next)=>{
      
 
 
-    const { error }= validate(req.body);
-
+   
     let subject = 'Welcome to the A.A.F Production Quality Portal platform'
     let htmlEmail = 'Hi '+req.body.firstname+'  '+req.body.lastname+' , You can access in our quality management area (http://localhost:4200/) with your email: '+req.body.email+' and password: '+req.body.password;
 
+ 
+
+const { error }= validate(req.body);
+if(error) return res.status(400).send(error.details[0].message);
 
 
-    if(error) return res.status(400).send(error.details[0].message);
-
-    const company = Company.findById(req.body.companyId);
+const company = await Company.findById(req.body.companyId);
     if (!company) return res.status(400).send('Invalid comapny.');
   
 
@@ -43,13 +44,13 @@ const createUser = (req,res,next)=>{
             email : req.body.email,
             lastname: req.body.lastname,
             firstname: req.body.firstname,
-            company: req.body.companyId,
             poste:req.body.poste,
             role: req.body.role,
-            phone: req.body.phone
+            phone: req.body.phone,
+            company:company._id
         });
         user.save().then(result=>{
-            const mailOptions = {
+           const mailOptions = {
                 from: '"AAF Tunisien Quality Portal" <aaf.ris.manager.2020@gmail.com>', // sender address
                 to: req.body.email, // list of receivers
                 subject: subject, // Subject line
@@ -63,7 +64,7 @@ const createUser = (req,res,next)=>{
                 } else {
                   res.status(200).send({success: true});
                 }
-              });
+              }); 
             res.status(201).json({
                 message : 'User Created',
                 result: result

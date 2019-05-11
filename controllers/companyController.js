@@ -1,4 +1,5 @@
 const {Company,validate} = require('../models/Company');
+const {Typecompany} = require('../models/Typecompany');
 
 
 const getAllCompany=(req,res,next)=>{
@@ -37,9 +38,14 @@ if(result.n>0){
     })
 }
 
-const createComapny=  (req,res,next)=>{
+const createComapny=  async(req,res,next)=>{
 const { error }= validate(req.body);
 if(error) return res.status(400).send(error.details[0].message);
+
+const typecompany = await Typecompany.findById(req.body.companyTypeId);
+    if (!typecompany) return res.status(400).send('Invalid type comapny.');
+//const type = Type.findById(req.body.typeId);
+  //  if (!type) return res.status(400).send('Invalid Type.');
 
 let company = new Company({
     companyName : req.body.companyName,
@@ -48,7 +54,8 @@ let company = new Company({
     companyFax:req.body.companyFax,
     companyWebsite:req.body.companyWebsite,
     companyInfo:req.body.companyInfo,
-    companyCountry:req.body.companyCountry
+    companyCountry:req.body.companyCountry,
+    companyType:typecompany._id
 });
 company.save().then(result=>{
     res.status(201).json({

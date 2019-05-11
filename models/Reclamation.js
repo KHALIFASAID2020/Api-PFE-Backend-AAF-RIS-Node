@@ -1,30 +1,16 @@
-/* const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 const Joi =require('joi');
 //const {Company} = require('./Company');
 //const nodeMailer = require('nodemailer');
-
-const documentUploadSchema=new mongoose.Schema({
-    lien :{
-        type: String, required: true,unique:true
-    }
-});
-documentUploadSchema.plugin(uniqueValidator);
-
-const document = mongoose.model('document',documentUploadSchema);
-
-exports.document = document;
-
-
-
 const reclamationSchema = new mongoose.Schema({
     refReclamation : {
         type: String, required: true,unique:true
     },
-    produit:{
+     produit:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Produit'
-    },
+    },/*
     defaut:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Defaut'
@@ -51,7 +37,7 @@ const reclamationSchema = new mongoose.Schema({
     destination:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'User'
-    }
+    } */
 
 },{
     timestamps : true
@@ -60,23 +46,16 @@ reclamationSchema.plugin(uniqueValidator);
 
 const Reclamation = mongoose.model('Reclamation',reclamationSchema);
 
-function validateReclamation(Reclamation){
+function validateReclamation(reclamation){
     const schema = {
         refReclamation:Joi.string().required(),
-        typeId:Joi.string().required(),
-        produitId:Joi.string().required(),
-        defautId:Joi.string().required(),
-        description:Joi.string().required(),
-        daterep:Joi.string().required(),
-        datelimit:Joi.string().required(),
-        creator:Joi.string().required(),
-        destination:Joi.string().required()
+        produitId:Joi.string().required()
     };
-    return Joi.validate(user,schema);
+    return Joi.validate(reclamation,schema);
 }
 
 exports.Reclamation = Reclamation;
-exports.validate=validateReclamation; */
+exports.validate=validateReclamation; 
 /* 
 const Schema = mongoose.Schema;
 

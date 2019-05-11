@@ -1,5 +1,5 @@
 const {Produit,validate} = require('../models/Produit');
-
+const {Company} = require('../models/Company');
 
 const getAllProduit=(req,res,next)=>{
     //sort('companyName').
@@ -37,14 +37,21 @@ if(result.n>0){
     })
 }
 
-const createProduit=  (req,res,next)=>{
+const createProduit= async (req,res,next)=>{
 const { error }= validate(req.body);
 if(error) return res.status(400).send(error.details[0].message);
+
+
+
+const company = await Company.findById(req.body.companyId);
+    if (!company) return res.status(400).send('Invalid comapny.');
+  
+
 
 let produit = new Produit({
     RefProduit : req.body.RefProduit,
     DesignationProduit:req.body.DesignationProduit,
-    Company:req.body.companyId
+    company:company._id
 });
 produit.save().then(result=>{
     res.status(201).json({
@@ -66,7 +73,7 @@ if(error) return res.status(400).send(error.details[0].message);
 const produit = Produit.findByIdAndUpdate(req.params.id,{
    RefProduit : req.body.RefProduit,
     DesignationProduit:req.body.DesignationProduit,
-    Company:req.body.companyId
+    company:req.body.companyId
 },{new:true}).then(result => {
     res.status(201).json({
         message : 'Produit Updated',
