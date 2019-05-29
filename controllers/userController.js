@@ -19,10 +19,6 @@ const createUser = async (req,res,next)=>{
           pass: 'aaf.ris.manager.2020aaf.ris.manager.2020'
         }
       });
-
-     
-
-
    
     let subject = 'Welcome to the A.A.F Production Quality Portal platform'
     let htmlEmail = 'Hi '+req.body.firstname+'  '+req.body.lastname+' , You can access in our quality management area (http://localhost:4200/) with your email: '+req.body.email+' and password: '+req.body.password;
@@ -123,10 +119,52 @@ function authenticate(req, res, next) {
 
 }
 
-function getAll(req, res, next) {
-    userService.getAll()
-        .then(users => res.json(users))
-        .catch(err => next(err));
+
+
+    
+
+/*    const users = await User.find().populate('company');
+   console.log(users);
+   res.send(users); */
+ /* User.find().populate({path :'company', model:'Company',populate:{path :'companyType',model:'Typecompany'}}).then(user=>{
+if(user){
+
+    res.status(200).json(user);
+
+}else{
+    res.status(404).json({ message: "Users not found!" });
+} */
+const getAll=  (req,res,next)=>{
+
+  console.log('req.user',req.user);
+  User.find()
+    .populate({path :'company', model:'Company',populate:{path :'companyType',model:'Typecompany'}})
+    .sort({ 'createdOn': -1 })
+		.exec()
+		.then(users => res.status(200).json(users))
+		.catch(err => res.status(500).json({
+			message: 'users not found - :(',
+			error: err
+		}));
+  /* const pageSize = +req.query.pagesize;
+  const currentPage = +req.query.page;
+  const postQuery = User.find().populate({path :'company', model:'Company',populate:{path :'companyType',model:'Typecompany'}});
+  let fetchedUsers;
+  if (pageSize && currentPage) {
+    postQuery.skip(pageSize * (currentPage - 1)).limit(pageSize);
+  }
+  postQuery
+    .then(documents => {
+        fetchedUsers = documents;
+      return User.count();
+    })
+    .then(count => {
+      res.status(200).json({
+        message: "User fetched successfully!",
+        users: fetchedUsers,
+        maxUsers: count
+      });
+    }); */
 }
 
 function getById(req,res,next){
@@ -143,10 +181,24 @@ userService.getById(req.params.id)
 
 
 
+
+const deleteUser =(req,res,next)=>{
+    User.deleteOne({_id: req.params.id}).then(result=>{
+if(result.n>0){
+    res.status(200).json({message : 'User Deleted Successful !'});
+
+}else{
+    res.status(404).json({ message: "Not authorized!" });
+
+}
+    })
+}
+
+
 /* function createUser (req,res,next){
     const currentUser = req.user;
 
 
 } */
 
-module.exports = {authenticate,getAll,getById,createUser}
+module.exports = {authenticate,getAll,getById,createUser,deleteUser}

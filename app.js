@@ -9,10 +9,13 @@ const usersRouter = require('./routes/users');
 const produitRouter =require('./routes/produit');
 const reclamationRouter = require('./routes/reclamation');
 const documentStansarisationRouter = require('./routes/documentStansarisation');
-
 const typeActionRouter = require('./routes/typeAction');
-
-
+const  analysisMethodRouter= require('./routes/analysisMethod');
+const  causeRouter= require('./routes/cause');
+const ActionPlanRouter = require('./routes/ActionPlan');
+const ActionRouter = require('./routes/Action');
+const GroupeRouter = require('./routes/GroupeResponsable');
+//Action
 
 const typeCompanyRouter =require('./routes/typeCompany');
 const companyRouter = require('./routes/company');
@@ -29,6 +32,7 @@ mongoose.connect("mongodb://localhost:27017/AAF-db-RIS",{useNewUrlParser: true})
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
 app.use(cors());
 app.use(errorHandler);
 // view engine setup
@@ -50,8 +54,21 @@ app.use('/typeCompany', typeCompanyRouter);
 app.use('/reclamation',reclamationRouter);
 app.use('/documentStansarisation',documentStansarisationRouter);
 app.use('/typeAction',typeActionRouter);
+app.use('/analysisMethod',analysisMethodRouter);
+app.use('/cause',causeRouter);
+app.use('/ActionPlan',ActionPlanRouter);
+app.use('/Action',ActionRouter);
+app.use('/Groupe',GroupeRouter);
 
 
+
+
+//ActionRouter
+
+
+
+
+//analysisMethod  
 // catch 404 and forward to error handler.
 app.use(function(req, res, next) {
   next(createError(404));

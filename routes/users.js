@@ -6,8 +6,11 @@ var userController = require('../controllers/userController')
 /* GET users listing. */
 
 router.post('/authenticate',userController.authenticate);
-router.post('/signup',userController.createUser);
-router.get('/', userController.getAll); // admin only
-router.get('/:id', authorize(), userController.getById);       // all authenticated users
+router.post('/signup',authorize("Admin"),userController.createUser);
 
+router.get('/',authorize("Admin"), userController.getAll); // admin only
+router.get('/:id', authorize(), userController.getById); 
+
+router.delete('/:id',authorize("Admin"),userController.deleteUser);
+      // all authenticated users
 module.exports = router;

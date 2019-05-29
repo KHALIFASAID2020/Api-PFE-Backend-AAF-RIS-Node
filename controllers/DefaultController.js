@@ -1,4 +1,12 @@
 const {Defaut,validate} = require('../models/Defaut');
+const Pusher = require('pusher')
+const pusher = new Pusher({
+    appId: '787045',
+    key: '144b1383f3c610a0f830',
+    secret: '633088866d72951db651',
+    cluster: 'eu',
+    encrypted: true
+  })
 
 
 const getAllDefaut=(req,res,next)=>{
@@ -48,6 +56,7 @@ let defaut = new Defaut({
     DesignationDefautEn:req.body.DesignationDefautEn
 });
 defaut.save().then(result=>{
+pusher.trigger('defaut', 'new', defaut);
     res.status(201).json({
         message : 'Fault Created',
         result: result
@@ -69,7 +78,9 @@ const defaut = Defaut.findByIdAndUpdate(req.params.id,{
     DesignationDefautFr:req.body.DesignationDefautFr,
     DesignationDefautDe:req.body.DesignationDefautDe,
     DesignationDefautEn:req.body.DesignationDefautEn
-},{new:true}).then(result => {
+}).then(result => {
+    pusher.trigger('defaut', 'update', defaut);
+
     res.status(201).json({
         message : 'Defaut Updated',
         result: result

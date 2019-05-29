@@ -7,10 +7,43 @@ const reclamationSchema = new mongoose.Schema({
     refReclamation : {
         type: String, required: true,unique:true
     },
+    typecompany:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Typecompany'
+    },
      produit:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Produit'
-    },/*
+    },
+    description:{
+        type : String,
+        required:true,
+    },
+    daterep:{
+        type : String,
+        required:true
+    },
+    datelimit:{
+        type : String,
+        required:true
+    },
+    defaut:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Defaut'
+    },
+    company:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Company'
+    },
+    creator:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User'
+    },
+    destination:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User'
+    }
+    /*
     defaut:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Defaut'
@@ -49,7 +82,16 @@ const Reclamation = mongoose.model('Reclamation',reclamationSchema);
 function validateReclamation(reclamation){
     const schema = {
         refReclamation:Joi.string().required(),
-        produitId:Joi.string().required()
+        typecompanyId:Joi.string().required(),
+        produitId:Joi.string().required(),
+        description:Joi.string().required(),
+        daterep:Joi.string().required(),
+        datelimit:Joi.string().required(),
+        defautId:Joi.string().required(),
+        companyId:Joi.string().required(),
+        creatorId:Joi.string().required(),
+        destinationId:Joi.string().required()
+      
     };
     return Joi.validate(reclamation,schema);
 }

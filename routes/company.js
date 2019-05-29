@@ -10,5 +10,6 @@ router.delete('/:id',authorize("Admin"),companyController.deleteCompany);
 router.get('/:id',authorize("Admin"),companyController.getById);
 router.put('/:id',authorize("Admin"),companyController.updateCompany);
 //router.get('/:id',companyController.updateCompany);
-
-module.exports = router;
+//company/getCompanyByTypeCompany/${TypeCompanyId}
+router.get('/getCompanyByTypeCompany/:id',companyController.getByIdTypeCompany);
+module.exports = router;//5cd618fab9462327c832d57c

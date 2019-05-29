@@ -26,6 +26,18 @@ Company.findById(req.params.id).then(company=>{
 }
 
 
+const getByIdTypeCompany =(req,res,next)=>{
+    Company.find({companyType : req.params.id}).select('_id companyName').then(company=>{
+        if(company){
+            res.status(200).json(company);
+    
+        }else{
+            res.status(404).json({ message: "Company not found!" });
+        }
+    });
+    }
+
+
 const deleteCompany =(req,res,next)=>{
     Company.deleteOne({_id: req.params.id}).then(result=>{
 if(result.n>0){
@@ -98,4 +110,4 @@ const company = Company.findByIdAndUpdate(req.params.id,{
 }
 
 
-module.exports = {createComapny,getAllCompany,getById,deleteCompany,updateCompany}
+module.exports = {createComapny,getAllCompany,getById,deleteCompany,updateCompany,getByIdTypeCompany}

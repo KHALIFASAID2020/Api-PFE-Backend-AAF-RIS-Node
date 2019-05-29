@@ -2,25 +2,25 @@ const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 const Joi =require('joi');
 
-const DocumentStandarisationSchema = new mongoose.Schema({
-    RefDocument : {
+const AnalysisMethodSchema = new mongoose.Schema({
+    AnalysisMethodName : {
         type: String, required: true,unique:true
     }
 });
-DocumentStandarisationSchema.plugin(uniqueValidator);
+AnalysisMethodSchema.plugin(uniqueValidator);
 
-const DocumentStandarisation = mongoose.model('DocumentStandarisation',DocumentStandarisationSchema);
+const AnalysisMethod = mongoose.model('AnalysisMethod',AnalysisMethodSchema);
 
-function validateDocument(document){
+function validateMethod(method){
     const schema = {
-        RefDocument : Joi.string().required()
+        AnalysisMethodName : Joi.string().required()
     };
-    return Joi.validate(document,schema);
+    return Joi.validate(method,schema);
 }
 
 
-exports.DocumentStandarisation = DocumentStandarisation;
-exports.validate=validateDocument;
+exports.AnalysisMethod = AnalysisMethod;
+exports.validate=validateMethod;
 /* 
 const Schema = mongoose.Schema;
 

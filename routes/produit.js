@@ -9,6 +9,7 @@ router.post('/AddProduit',authorize("Admin"),produitController.createProduit);
 router.delete('/:id',authorize("Admin"),produitController.deleteProduit);
 router.get('/:id',authorize("Admin"),produitController.getById);
 router.put('/:id',authorize("Admin"),produitController.updateProduit);
+router.get('/getByIdCompanyProduit/:id',produitController.getByIdCompanyProduit);
 //router.get('/:id',companyController.updateCompany);
 
 module.exports = router;

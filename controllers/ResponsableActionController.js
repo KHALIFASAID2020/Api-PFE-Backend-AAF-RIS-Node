@@ -1,9 +1,9 @@
-const {Produit,validate} = require('../models/Produit');
-const {Company} = require('../models/Company');
-
-const getAllProduit=(req,res,next)=>{
+const {ResponsableAction,validate} = require('../models/Produit');
+const {User} = require('../models/User');
+const {GroupeResponsableAction} = require('../models/GroupeResponsableAction');
+const getAllResponsableAction=(req,res,next)=>{
     //sort('companyName').
-Produit.find().sort('RefProduit').then(produit=>{
+ResponsableAction.find().sort('RefProduit').then(produit=>{
 if(produit){
     res.status(200).json(produit);
 }else{
@@ -25,19 +25,7 @@ Produit.findById(req.params.id).then(produit=>{
 }
 
 
-const getByIdCompanyProduit =(req,res,next)=>{
-    Produit.find({company : req.params.id}).select('_id RefProduit').then(produit=>{
-        if(produit){
-            res.status(200).json(produit);
-    
-        }else{
-            res.status(404).json({ message: "Produit not found!" });
-        }
-    });
-    }
-
-
-const deleteProduit =(req,res,next)=>{
+const deleteResponsableAction =(req,res,next)=>{
     Produit.deleteOne({_id: req.params.id}).then(result=>{
 if(result.n>0){
     res.status(200).json({message : 'Deleted Successful !'});
@@ -49,7 +37,7 @@ if(result.n>0){
     })
 }
 
-const createProduit= async (req,res,next)=>{
+const createResponsableAction= async (req,res,next)=>{
 const { error }= validate(req.body);
 if(error) return res.status(400).send(error.details[0].message);
 
@@ -78,7 +66,7 @@ produit.save().then(result=>{
 });
 }
 
-const updateProduit = (req,res,next)=>{
+const updateResponsableAction = (req,res,next)=>{
 const { error }= validate(req.body);
 if(error) return res.status(400).send(error.details[0].message);
 
@@ -106,4 +94,4 @@ const produit = Produit.findByIdAndUpdate(req.params.id,{
 
 
 
-module.exports = {getAllProduit,updateProduit,createProduit,deleteProduit,getById,getByIdCompanyProduit}
+module.exports = {getAllProduit,updateProduit,createProduit,deleteProduit,getById}

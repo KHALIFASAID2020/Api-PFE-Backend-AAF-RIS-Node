@@ -1,6 +1,9 @@
 const {Reclamation,validate} = require('../models/Reclamation');
-
-
+const {Produit} = require('../models/Produit');
+const {Typecompany} = require('../models/Typecompany');
+const {Defaut} = require('../models/Defaut');
+const {Company} = require('../models/Company');
+const {User}= require('../models/User');
 const getAllReclamation=(req,res,next)=>{
     //sort('companyName').
 Produit.find().sort('refReclamation').then(produit=>{
@@ -37,13 +40,43 @@ if(result.n>0){
     })
 }
 
-const createReclamation=  (req,res,next)=>{
+const createReclamation=async  (req,res,next)=>{
 const { error }= validate(req.body);
 if(error) return res.status(400).send(error.details[0].message);
+    const typecompany = await Typecompany.findById(req.body.typecompanyId);
+    if (!typecompany) return res.status(400).send('Invalid Type.');
+ 
+    const produit = await Produit.findById(req.body.produitId);
+    if (!produit) return res.status(400).send('Invalid Produit.');
 
+    const defaut = await Defaut.findById(req.body.defautId);
+    if (!defaut) return res.status(400).send('Invalid Defaut.'); 
+    
+
+    const company = await Company.findById(req.body.companyId);
+    if (!company) return res.status(400).send('Invalid Company.'); 
+
+    const creator = await User.findById(req.body.creatorId);
+    if (!creator) return res.status(400).send('Invalid User.'); 
+    
+    const destination = await User.findById(req.body.destinationId);
+    if (!destination) return res.status(400).send('Invalid User destination.'); 
+    
+
+    //companyId
+//destinationId
 let reclamation = new Reclamation({
     refReclamation : req.body.refReclamation,
-    produit:req.body.produitId
+    typecompany:typecompany._id,
+    produit:produit._id,
+    description:req.body.description,
+        daterep:req.body.daterep,
+        datelimit:req.body.datelimit,
+        defaut:defaut._id,
+        company:company._id,
+        creator:creator._id,
+        destination:destination._id
+    
 });
 reclamation.save().then(result=>{
     res.status(201).json({
@@ -58,13 +91,40 @@ reclamation.save().then(result=>{
 });
 }
 
-const updateReclamation = (req,res,next)=>{
+const updateReclamation =async (req,res,next)=>{
 const { error }= validate(req.body);
 if(error) return res.status(400).send(error.details[0].message);
 
+const typecompany = await Typecompany.findById(req.body.typecompanyId);
+if (!typecompany) return res.status(400).send('Invalid Type.');
+
+const produit = await Produit.findById(req.body.produitId);
+if (!produit) return res.status(400).send('Invalid Produit.');
+
+const defaut = await Defaut.findById(req.body.defautId);
+if (!defaut) return res.status(400).send('Invalid Defaut.'); 
+
+
+const company = await Company.findById(req.body.companyId);
+if (!company) return res.status(400).send('Invalid Company.'); 
+
+const creator = await User.findById(req.body.creatorId);
+if (!creator) return res.status(400).send('Invalid User.'); 
+
+const destination = await User.findById(req.body.destinationId);
+if (!destination) return res.status(400).send('Invalid User destination.'); 
+
 const reclamation = Reclamation.findByIdAndUpdate(req.params.id,{
     refReclamation : req.body.refReclamation,
-    produit:req.body.produitId
+    typecompany:typecompany._id,
+    produit:produit._id,
+    description:req.body.description,
+        daterep:req.body.daterep,
+        datelimit:req.body.datelimit,
+        defaut:defaut._id,
+        company:company._id,
+        creator:creator._id,
+        destination:destination._id
 },{new:true}).then(result => {
     res.status(201).json({
         message : 'Reclamation Updated',
