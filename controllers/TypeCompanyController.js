@@ -26,6 +26,7 @@ Typecompany.findById(req.params.id).then(type=>{
 }
 
 
+
 const deleteTypeCompany =(req,res,next)=>{
     Typecompany.deleteOne({_id: req.params.id}).then(result=>{
 if(result.n>0){

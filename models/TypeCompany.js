@@ -19,6 +19,7 @@ function validateCompany(company){
 }
 
 
+
 exports.Typecompany = Typecompany;
 exports.validate=validateCompany;
 /* 

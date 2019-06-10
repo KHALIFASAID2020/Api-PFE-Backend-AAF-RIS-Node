@@ -15,6 +15,10 @@ const reclamationSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'Produit'
     },
+    quantity:{
+        type : Number,
+        required:true,
+    },
     description:{
         type : String,
         required:true,
@@ -39,38 +43,15 @@ const reclamationSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'User'
     },
-    destination:{
+    destination:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:'User'
-    }
-    /*
-    defaut:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'Defaut'
-    },
-    description:{
-        type : String,
-        required:true,
-    },
-    daterep:{
-        type : Date,
-        required:true
-    },
-    documents:{
-        type : [document]
-    },
-    datelimit:{
-        type : Date,
-        required:true
-    },
-    creator:{
+    }],
+    destinationencopy:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:'User'
-    },
-    destination:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'User'
-    } */
+    }],
+   
 
 },{
     timestamps : true
@@ -84,14 +65,15 @@ function validateReclamation(reclamation){
         refReclamation:Joi.string().required(),
         typecompanyId:Joi.string().required(),
         produitId:Joi.string().required(),
+        quantity:Joi.number().required(),
         description:Joi.string().required(),
         daterep:Joi.string().required(),
         datelimit:Joi.string().required(),
         defautId:Joi.string().required(),
         companyId:Joi.string().required(),
         creatorId:Joi.string().required(),
-        destinationId:Joi.string().required()
-      
+        destinationId:Joi.array().required(),
+    destinationencopy:Joi.array().required()
     };
     return Joi.validate(reclamation,schema);
 }

@@ -1,5 +1,5 @@
 const {Produit,validate} = require('../models/Produit');
-const {Company} = require('../models/Company');
+//const {Company} = require('../models/Company');
 
 const getAllProduit=(req,res,next)=>{
     //sort('companyName').
@@ -12,6 +12,19 @@ if(produit){
 });
 //res.send(company);
 }//aaf.ris.manager.2020
+
+const getProduitByType=(req,res,next)=>{
+    Produit.find({typeProduit:"PF"}).sort('RefProduit').then(produit=>{
+        if(produit){
+            res.status(200).json(produit);
+        }else{
+            res.status(404).json({ message: "Produit not found!" });
+        }
+        });
+}
+
+
+
 
 const getById = (req,res,next)=>{
 Produit.findById(req.params.id).then(produit=>{
@@ -55,15 +68,11 @@ if(error) return res.status(400).send(error.details[0].message);
 
 
 
-const company = await Company.findById(req.body.companyId);
-    if (!company) return res.status(400).send('Invalid comapny.');
-  
-
 
 let produit = new Produit({
     RefProduit : req.body.RefProduit,
     DesignationProduit:req.body.DesignationProduit,
-    company:company._id
+    typeProduit:req.body.typeProduit
 });
 produit.save().then(result=>{
     res.status(201).json({
@@ -85,7 +94,8 @@ if(error) return res.status(400).send(error.details[0].message);
 const produit = Produit.findByIdAndUpdate(req.params.id,{
    RefProduit : req.body.RefProduit,
     DesignationProduit:req.body.DesignationProduit,
-    company:req.body.companyId
+    typeProduit:req.body.typeProduit
+    
 },{new:true}).then(result => {
     res.status(201).json({
         message : 'Produit Updated',
@@ -101,9 +111,4 @@ const produit = Produit.findByIdAndUpdate(req.params.id,{
 
 }
 
-
-
-
-
-
-module.exports = {getAllProduit,updateProduit,createProduit,deleteProduit,getById,getByIdCompanyProduit}
+module.exports = {getAllProduit,updateProduit,createProduit,deleteProduit,getById,getByIdCompanyProduit,getProduitByType}

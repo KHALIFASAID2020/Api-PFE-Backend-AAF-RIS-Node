@@ -2,8 +2,24 @@ const {Company,validate} = require('../models/Company');
 const {Typecompany} = require('../models/Typecompany');
 
 
+const getAllCompanyClient=(req,res,next)=>{
+
+
+    //sort('companyName'). 5cd618fab9462327c832d57c
+Company.find({companyType:{_id:'5cd61900b9462327c832d57d'}}).populate('companyType').sort('companyName').then(company=>{
+if(company){
+    res.status(200).json(company);
+}else{
+    res.status(404).json({ message: "Post not found!" });
+}
+});
+//res.send(company);
+}
+
+
 const getAllCompany=(req,res,next)=>{
-    //sort('companyName').
+    //sort('companyName'). 5cd618fab9462327c832d57c
+    
 Company.find().sort('companyName').then(company=>{
 if(company){
     res.status(200).json(company);
@@ -12,7 +28,22 @@ if(company){
 }
 });
 //res.send(company);
-}//aaf.ris.manager.2020
+}//aaf.ris.manager.2020 
+
+
+const getByIdCompanyType =(req,res,next)=>{
+    Company.find({companyType : req.params.id}).then(resultcompanyType=>{
+        if(resultcompanyType){
+            res.status(200).json(resultcompanyType);
+    
+        }else{
+            res.status(404).json({ message: "Produit not found!" });
+        }
+    });
+    }
+
+
+
 
 const getById = (req,res,next)=>{
 Company.findById(req.params.id).then(company=>{
@@ -26,16 +57,7 @@ Company.findById(req.params.id).then(company=>{
 }
 
 
-const getByIdTypeCompany =(req,res,next)=>{
-    Company.find({companyType : req.params.id}).select('_id companyName').then(company=>{
-        if(company){
-            res.status(200).json(company);
-    
-        }else{
-            res.status(404).json({ message: "Company not found!" });
-        }
-    });
-    }
+
 
 
 const deleteCompany =(req,res,next)=>{
@@ -49,6 +71,8 @@ if(result.n>0){
 }
     })
 }
+
+
 
 const createComapny=  async(req,res,next)=>{
 const { error }= validate(req.body);
@@ -110,4 +134,4 @@ const company = Company.findByIdAndUpdate(req.params.id,{
 }
 
 
-module.exports = {createComapny,getAllCompany,getById,deleteCompany,updateCompany,getByIdTypeCompany}
+module.exports = {createComapny,getAllCompany,getById,deleteCompany,updateCompany,getByIdCompanyType,getAllCompanyClient}

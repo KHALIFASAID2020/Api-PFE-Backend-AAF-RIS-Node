@@ -16,6 +16,8 @@ const ActionPlanRouter = require('./routes/ActionPlan');
 const ActionRouter = require('./routes/Action');
 const GroupeRouter = require('./routes/GroupeResponsable');
 //Action
+const CommandeRouter = require('./routes/Commande');
+
 
 const typeCompanyRouter =require('./routes/typeCompany');
 const companyRouter = require('./routes/company');
@@ -61,8 +63,7 @@ app.use('/Action',ActionRouter);
 app.use('/Groupe',GroupeRouter);
 
 
-
-
+app.use('/commande',CommandeRouter);
 //ActionRouter
 
 
