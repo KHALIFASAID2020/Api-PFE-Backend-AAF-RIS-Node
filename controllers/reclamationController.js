@@ -5,14 +5,7 @@ const {Defaut} = require('../models/Defaut');
 const {Company} = require('../models/Company');
 const {User}= require('../models/User');
 
-const Pusher = require('pusher')
-const pusher = new Pusher({
-    appId: '787045',
-    key: '144b1383f3c610a0f830',
-    secret: '633088866d72951db651',
-    cluster: 'eu',
-    encrypted: true
-  }) 
+
 
 const getAllReclamation=(req,res,next)=>{
     //sort('companyName').
@@ -28,6 +21,24 @@ if(reclamation){
 }//aaf.ris.manager.2020
 
 
+
+const getAllReclamationByDestination=(req,res,next)=>{
+    //sort('companyName').
+Reclamation.find(({destination:{_id:req.params.id}})).populate('typecompany produit defaut company creator destination destinationencopy').sort({createdAt :'desc'}).then(reclamation=>{
+if(reclamation){
+    res.status(200).json(reclamation);
+}else{
+    res.status(404).json({ message: "Reclamation not found!" });
+}
+});
+//res.send(company);
+}//aaf.ris.manager.2020
+
+
+//gettReclamationDetails
+
+
+
 const getAllReclamationByCreator=(req,res,next)=>{
     //sort('companyName').
 Reclamation.find(({creator:{_id:req.params.id}})).populate('typecompany produit defaut company creator destination destinationencopy').sort({createdAt :'desc'}).then(reclamation=>{
@@ -41,7 +52,7 @@ if(reclamation){
 }//aaf.ris.manager.2020
 
 const getById = (req,res,next)=>{
-    Reclamation.findById(req.params.id).then(reclamation=>{
+    Reclamation.findById(req.params.id).populate('typecompany produit defaut company creator destination destinationencopy').then(reclamation=>{
     if(reclamation){
         res.status(200).json(reclamation);
 
@@ -67,24 +78,28 @@ if(result.n>0){
 const createReclamation=async  (req,res,next)=>{
 const { error }= validate(req.body);
 if(error) return res.status(400).send(error.details[0].message);
-    const typecompany = await Typecompany.findById(req.body.typecompanyId);
+    const typecompany = await Typecompany.findById(req.body.typecompany);
     if (!typecompany) return res.status(400).send('Invalid Type.');
  
-    const produit = await Produit.findById(req.body.produitId);
+    const produit = await Produit.findById(req.body.produit);
     if (!produit) return res.status(400).send('Invalid Produit.');
 
-    const defaut = await Defaut.findById(req.body.defautId);
+    const defaut = await Defaut.findById(req.body.defaut);
     if (!defaut) return res.status(400).send('Invalid Defaut.'); 
     
 
-    const company = await Company.findById(req.body.companyId);
+    const company = await Company.findById(req.body.company);
     if (!company) return res.status(400).send('Invalid Company.'); 
 
-    const creator = await User.findById(req.body.creatorId);
+    const creator = await User.findById(req.body.creator);
     if (!creator) return res.status(400).send('Invalid User.'); 
     
-    const destination = await User.findById(req.body.destinationId);
+    const destination = await User.findById(req.body.destination);
     if (!destination) return res.status(400).send('Invalid User destination.'); 
+    
+
+    const destinationencopy = await User.findById(req.body.destinationencopy);
+    if (!destinationencopy) return res.status(400).send('Invalid User destination.'); 
     
 
     //companyId
@@ -101,9 +116,9 @@ let reclamation = new Reclamation({
      company:company._id,
         creator:creator._id,
         destination:destination._id,
-        destinationencopy:req.body.destinationencopy
+        destinationencopy:destinationencopy._id
 
-
+        
 
         /* company: "5cdf2d735f147c0a848eafab"
 dateOfDeadline: "2019-06-07"
@@ -122,8 +137,6 @@ reclamation.save().then(result=>{
         message : 'Reclamation Created',
         result: result
     });
-    pusher.trigger('reclamation', 'new', result)
-    res.send(result)
 }).catch(err=>{
     res.status(500).json({
         message : 'Reclamation Exist',
@@ -188,4 +201,4 @@ const reclamation = Reclamation.findByIdAndUpdate(req.params.id,{
 
 
 
-module.exports = {getAllReclamation,updateReclamation,createReclamation,deleteReclamation,getAllReclamationByCreator,getAllReclamation,getById}
+module.exports = {getAllReclamation,updateReclamation,createReclamation,deleteReclamation,getAllReclamationByDestination,getAllReclamationByCreator,getAllReclamation,getById}

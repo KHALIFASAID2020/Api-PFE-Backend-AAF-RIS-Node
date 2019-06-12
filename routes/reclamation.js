@@ -5,6 +5,9 @@ const authorize = require('../_helpers/authorize');
 var reclamationController = require('../controllers/reclamationController')
 /* GET users listing. */
 router.get('/',reclamationController.getAllReclamation);
+//getAllReclamationByDestination
+router.get('/getAllReclamationByDestination/:id',reclamationController.getAllReclamationByDestination);
+
 router.get('/getAllReclamationByCreator/:id',reclamationController.getAllReclamationByCreator);
 //getAllReclamationByCreator
 router.post('/AddReclamation',authorize("Admin"),reclamationController.createReclamation);

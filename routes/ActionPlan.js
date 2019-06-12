@@ -6,8 +6,11 @@ var ActionPlanController = require('../controllers/ActionPlanController');
 /* GET users listing. */
 router.get('/',ActionPlanController.getAllActionPlan);
 router.post('/AddActionPlan',authorize("Admin"),ActionPlanController.createActionPlan);
+//getActionPlanByComplaint
+router.get('/getActionPlanByComplaint/:id',ActionPlanController.getActionPlanByComplaint);
+
 router.delete('/:id',authorize("Admin"),ActionPlanController.deleteActionPlan);
-router.get('/:id',authorize("Admin"),ActionPlanController.getById);
+router.get('/:id',ActionPlanController.getById);
 router.put('/:id',authorize("Admin"),ActionPlanController.updateActionPlan);
 //router.get('/:id',companyController.updateCompany);
 

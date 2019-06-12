@@ -63,16 +63,16 @@ const Reclamation = mongoose.model('Reclamation',reclamationSchema);
 function validateReclamation(reclamation){
     const schema = {
         refReclamation:Joi.string().required(),
-        typecompanyId:Joi.string().required(),
-        produitId:Joi.string().required(),
+        typecompany:Joi.string().required(),
+        produit:Joi.string().required(),
         quantity:Joi.number().required(),
         description:Joi.string().required(),
         daterep:Joi.string().required(),
         datelimit:Joi.string().required(),
-        defautId:Joi.string().required(),
-        companyId:Joi.string().required(),
-        creatorId:Joi.string().required(),
-        destinationId:Joi.array().required(),
+        defaut:Joi.string().required(),
+        company:Joi.string().required(),
+        creator:Joi.string().required(),
+        destination:Joi.array().required(),
     destinationencopy:Joi.array().required()
     };
     return Joi.validate(reclamation,schema);

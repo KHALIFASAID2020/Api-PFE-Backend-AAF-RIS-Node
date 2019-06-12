@@ -13,6 +13,9 @@ const ActionPlanSchema = new mongoose.Schema({
     teamLeader:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'User'
+    },
+    status : {
+        type: String, required: true
     }
 });
 ActionPlanSchema.plugin(uniqueValidator);
@@ -22,8 +25,9 @@ const ActionPlan = mongoose.model('ActionPlan',ActionPlanSchema);
 function validateActionPlan(actionplan){
     const schema = {
         RefActionPlan : Joi.string().required(),
-        reclamationId:Joi.string().required(),
-        teamLeaderId:Joi.string().required()
+        reclamation:Joi.string().required(),
+        teamLeader:Joi.string().required(),
+        status:Joi.string().required()
     };
     return Joi.validate(actionplan,schema);
 }
