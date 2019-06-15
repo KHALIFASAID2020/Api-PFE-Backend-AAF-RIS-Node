@@ -2,30 +2,32 @@ const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 const Joi =require('joi');
 
-const GroupeResponsableActionSchema = new mongoose.Schema({
-    RefGroupeResponsableAction : {
+const ProblemDescriptionSchema = new mongoose.Schema({
+    RefDescriptionProblem: {
         type: String, required: true,unique:true
     },
     actionplan:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'ActionPlan'
+    },
+    description:{
+        type: String, required: true,unique:true
     }
 });
-GroupeResponsableActionSchema.plugin(uniqueValidator);
+ProblemDescriptionSchema.plugin(uniqueValidator);
 
-const GroupeResponsableAction = mongoose.model('GroupeResponsableAction',GroupeResponsableActionSchema);
+const ProblemDescription = mongoose.model('ProblemDescription',ProblemDescriptionSchema);
 
-function validateGroupeResponsableAction(groupeResponsableAction){
+function validateActionPlan(problemDescription){
     const schema = {
-        RefGroupeResponsableAction : Joi.string().required(),
-        actionplan:Joi.string().required()
+        RefDescriptionProblem : Joi.string().required(),
+        actionplan:Joi.string().required(),
+        description:Joi.string().required()
     };
-    return Joi.validate(groupeResponsableAction,schema);
+    return Joi.validate(problemDescription,schema);
 }
-
-
-exports.GroupeResponsableAction = GroupeResponsableAction;
-exports.validate=validateGroupeResponsableAction;
+exports.ProblemDescription = ProblemDescription;
+exports.validate=validateActionPlan;
 /* 
 const Schema = mongoose.Schema;
 

@@ -94,13 +94,13 @@ if(error) return res.status(400).send(error.details[0].message);
     const creator = await User.findById(req.body.creator);
     if (!creator) return res.status(400).send('Invalid User.'); 
     
-    const destination = await User.findById(req.body.destination);
+    /* const destination = await User.findById(req.body.destination);
     if (!destination) return res.status(400).send('Invalid User destination.'); 
     
 
     const destinationencopy = await User.findById(req.body.destinationencopy);
     if (!destinationencopy) return res.status(400).send('Invalid User destination.'); 
-    
+     */
 
     //companyId
 //destinationId
@@ -115,8 +115,8 @@ let reclamation = new Reclamation({
     defaut:defaut._id,
      company:company._id,
         creator:creator._id,
-        destination:destination._id,
-        destinationencopy:destinationencopy._id
+        destination:req.body.destination,
+        destinationencopy:req.body.destinationencopy
 
         
 

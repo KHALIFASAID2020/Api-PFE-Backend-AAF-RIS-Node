@@ -5,10 +5,10 @@ const authorize = require('../_helpers/authorize');
 var ActionController = require('../controllers/ActionController');
 /* GET users listing. */
 router.get('/',ActionController.getAllAction);
-router.post('/AddAction',authorize("Admin"),ActionController.createAction);
-router.delete('/:id',authorize("Admin"),ActionController.deleteAction);
-router.get('/:id',authorize("Admin"),ActionController.getById);
-router.put('/:id',authorize("Admin"),ActionController.updateAction);
+router.post('/AddAction',ActionController.createAction);
+router.delete('/:id',ActionController.deleteAction);
+router.get('/:id',ActionController.getById);
+router.put('/:id',ActionController.updateAction);
 //router.get('/:id',companyController.updateCompany);
 
 module.exports = router;

@@ -8,8 +8,8 @@ var userController = require('../controllers/userController')
 router.post('/authenticate',userController.authenticate);
 router.post('/signup',authorize("Admin"),userController.createUser);
 
-router.get('/',authorize("Admin"), userController.getAll); // admin only
-router.get('/:id', authorize(), userController.getById); 
+router.get('/', userController.getAll); // admin only
+router.get('/:id', userController.getById); 
 
 router.delete('/:id',authorize("Admin"),userController.deleteUser);
       // all authenticated users

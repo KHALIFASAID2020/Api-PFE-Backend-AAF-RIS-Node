@@ -7,7 +7,7 @@ var typeCompanyController = require('../controllers/TypeCompanyController')
 router.get('/',typeCompanyController.getAllTypeCompany);
 router.post('/AddType',authorize("Admin"),typeCompanyController.createTypeComapny);
 router.delete('/:id',authorize("Admin"),typeCompanyController.deleteTypeCompany);
-router.get('/:id',authorize("Admin"),typeCompanyController.getById);
+router.get('/:id',typeCompanyController.getById);
 router.put('/:id',authorize("Admin"),typeCompanyController.updateType);
 
 //router.get('/:id',companyController.updateCompany);

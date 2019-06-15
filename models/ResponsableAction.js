@@ -3,11 +3,14 @@ const uniqueValidator = require('mongoose-unique-validator');
 const Joi =require('joi');
 
 const ResponsableActionSchema = new mongoose.Schema({
-    RefResponsableAction : {
+    RefResponsable : {
+        type: String, required: true,unique:true
+    },
+    responsableAction : {
         type:mongoose.Schema.Types.ObjectId,
         ref:'User'
     },
-    GroupeResponsableAction:{
+    groupeResponsableAction:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'GroupeResponsableAction'
     }
@@ -18,8 +21,9 @@ const ResponsableAction = mongoose.model('ResponsableAction',ResponsableActionSc
 
 function validateResponsableAction(responsableAction){
     const schema = {
-        RefResponsableActionId : Joi.string().required(),
-        GroupeResponsableActionId:Joi.string().required()
+        RefResponsable:Joi.string().required(),
+        responsableAction : Joi.string().required(),
+       // groupeResponsableAction:Joi.string().required()
     };
     return Joi.validate(responsableAction,schema);
 }

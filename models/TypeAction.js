@@ -3,7 +3,7 @@ const uniqueValidator = require('mongoose-unique-validator');
 const Joi =require('joi');
 
 const TypeActionSchema = new mongoose.Schema({
-    TypeAction : {
+    typeAction : {
         type: String, required: true,unique:true
     }
 });
@@ -13,12 +13,10 @@ const TypeAction = mongoose.model('TypeAction',TypeActionSchema);
 
 function validateDocument(typeaction){
     const schema = {
-        TypeAction : Joi.string().required()
+        typeAction : Joi.string().required()
     };
     return Joi.validate(typeaction,schema);
 }
-
-
 exports.TypeAction = TypeAction;
 exports.validate=validateDocument;
 /* 

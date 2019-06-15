@@ -1,6 +1,11 @@
 const {ActionPlan,validate} =require('../models/ActionPlan');
 const {Reclamation} = require('../models/Reclamation');
+
 const {User}= require('../models/User');
+const {GroupeResponsableAction}= require('../models/GroupeResponsableAction');
+
+
+
 /* 
 RefActionPlan : Joi.string().required(),
 reclamation:Joi.string().required(),
@@ -19,6 +24,10 @@ if(actionplan){
 //res.send(company);
 }//aaf.ris.manager.2020
 
+
+//updateActionPlanTeamLeader
+
+
 const getById = (req,res,next)=>{
     ActionPlan.findById(req.params.id).populate('reclamation').then(actionplan=>{
     if(actionplan){
@@ -30,6 +39,11 @@ const getById = (req,res,next)=>{
 });
 }
 
+//getComplaintRefByActionPlanId
+
+
+
+
 const getActionPlanByComplaint=(req,res,next)=>{
     ActionPlan.find(({reclamation:{_id:req.params.id}})).populate('reclamation teamLeader').then(actionplan=>{
     if(actionplan){
@@ -39,6 +53,9 @@ const getActionPlanByComplaint=(req,res,next)=>{
     }
 });
 }
+
+
+
 
 
 
@@ -78,8 +95,31 @@ let actionplan = new ActionPlan({
 actionplan.save().then(result=>{
     res.status(201).json({
         message : 'Action Plan Created',
-        result: result
+        result: result,
+        id:result._id   
     });
+//GroupeResponsableAction
+    
+ let groupeResponsableAction = new GroupeResponsableAction({
+    RefGroupeResponsableAction : 'Groupe'+Date.now(),
+    actionplan:result._id ,
+       
+});     
+    groupeResponsableAction.save().then(resultGroup=>{
+   
+}).catch(err=>{
+  
+});
+    
+    
+
+
+
+
+
+
+
+
 }).catch(err=>{
     res.status(500).json({
         message : 'Action Plan Exist',
@@ -120,7 +160,37 @@ const actionplan = ActionPlan.findByIdAndUpdate(req.params.id,{
 
 
 
+const updateActionPlanTeamLeader =async (req,res,next)=>{
+    /* const { error }= validate(req.body);
+    if(error) return res.status(400).send(error.details[0].message);
+     */
+     
+    /* const reclamation = await Reclamation.findById(req.body.reclamation);
+    if (!reclamation) return res.status(400).send('Invalid Reclamation.');
+     */
+    const teamLeader = await User.findById(req.body.teamLeader);
+    if (!teamLeader) return res.status(400).send('Invalid TeamLeader.');
+    
+    const actionplan = ActionPlan.findByIdAndUpdate(req.params.id,{
+        
+        
+        teamLeader:teamLeader._id
+    
+    },{new:true}).then(result => {
+        res.status(201).json({
+            message : 'Teamp leader for this Plan Updated',
+            result: result
+        });
+    }).catch(err=>{
+        res.status(500).json({
+            message : 'Error for updeted',
+            error: err
+        });  
+    });
+    }
+//updateActionPlanTeamLeader
 
 
 
-module.exports = {createActionPlan,updateActionPlan,deleteActionPlan,getActionPlanByComplaint,getAllActionPlan,getById}
+
+module.exports = {createActionPlan,updateActionPlan,deleteActionPlan,getActionPlanByComplaint,getAllActionPlan,getById,updateActionPlanTeamLeader}

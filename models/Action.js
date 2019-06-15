@@ -5,24 +5,27 @@ const uniqueValidator = require('mongoose-unique-validator');
 const Joi =require('joi');
 
 const ActionSchema = new mongoose.Schema({
-    RefAction : {
+    refAction : {
         type: String, required: true,unique:true
     },
-    Status : {
+    status : {
         type: String, required: true
     },
-    Description : {
+    position : {
+        type: String, required: true,unique:true
+    },
+    description : {
         type: String, required: true
     },
-    ActionPlan:{
+    actionplan:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'ActionPlan'
     },
-    ResponsableAction:{
+    responsableAction:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'User'
     },
-    TypeAction:{
+    typeAction:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'TypeAction'
     }
@@ -33,12 +36,13 @@ const Action = mongoose.model('Action',ActionSchema);
 
 function validateAction(actionplan){
     const schema = {
-        RefAction : Joi.string().required(),
-        Status : Joi.string().required(),
-        Description : Joi.string().required(),
-        ActionPlanId:Joi.string().required(),
-        ResponsableActionId:Joi.string().required(),
-        TypeActionId:Joi.string().required()
+        refAction : Joi.string().required(),
+        position:Joi.string().required(),
+        status : Joi.string().required(),
+        description : Joi.string().required(),
+        actionplan:Joi.string().required(),
+        responsableAction:Joi.string().required(),
+        typeAction:Joi.string().required()
     };
     return Joi.validate(actionplan,schema);
 }

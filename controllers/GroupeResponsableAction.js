@@ -27,13 +27,33 @@ const getById = (req,res,next)=>{
 }
 
 
+const getGroupeByActionPlan=(req,res,next)=>{
+    GroupeResponsableAction.find(({actionplan:{_id:req.params.id}})).populate('actionplan').then(groupe=>{
+    if(groupe){
+        res.status(200).json(groupe);
+    }else{
+        res.status(404).json({ message: "Group Analysis not found!" });
+    }
+});
+
+//------
+
+
+//---
+
+
+}
+
+
+
+
 const deleteGroupeResponsableAction =(req,res,next)=>{
     GroupeResponsableAction.deleteOne({_id: req.params.id}).then(result=>{
 if(result.n>0){
     res.status(200).json({message : 'Deleted group Successful !'});
 
 }else{
-    res.status(404).json({ message: "Not authorized!" });
+    res.status(404).json({ message: "Error deleted !" });
 
 }
     })
@@ -44,8 +64,9 @@ const { error }= validate(req.body);
 if(error) return res.status(400).send(error.details[0].message);
 
 
-const actionplan = await ActionPlan.findById(req.body.ActionPlanId);
+const actionplan = await ActionPlan.findById(req.body.actionplan);
     if (!actionplan) return res.status(400).send('Invalid Action Plan.');
+    //res.send(actionplan._id);
 
 let grouperesponsable = new GroupeResponsableAction({
     RefGroupeResponsableAction :req.body.RefGroupeResponsableAction,
@@ -61,7 +82,7 @@ grouperesponsable.save().then(result=>{
         message : 'Group  Exist',
         error: err
     });
-});
+}); 
 }
 
 const updateGroupeResponsableAction= async (req,res,next)=>{
@@ -69,7 +90,7 @@ const { error }= validate(req.body);
 if(error) return res.status(400).send(error.details[0].message);
 
 
-const actionplan = await ActionPlan.findById(req.body.ActionPlanId);
+const actionplan = await ActionPlan.findById(req.body.actionplan);
     if (!actionplan) return res.status(400).send('Invalid Action Plan.');
 
 
@@ -92,4 +113,4 @@ const grouperesponsable = GroupeResponsableAction.findByIdAndUpdate(req.params.i
 }
  
 
-module.exports = {getAllGroupeResponsableAction,deleteGroupeResponsableAction,createGroupeResponsableAction,updateGroupeResponsableAction,getById}
+module.exports = {getAllGroupeResponsableAction,deleteGroupeResponsableAction,getGroupeByActionPlan,createGroupeResponsableAction,updateGroupeResponsableAction,getById}

@@ -5,10 +5,13 @@ const authorize = require('../_helpers/authorize');
 var GroupeResponsableActionController = require('../controllers/GroupeResponsableAction');
 /* GET users listing. */
 router.get('/',GroupeResponsableActionController.getAllGroupeResponsableAction);
-router.post('/AddGroup',authorize("Admin"),GroupeResponsableActionController.createGroupeResponsableAction);
-router.delete('/:id',authorize("Admin"),GroupeResponsableActionController.deleteGroupeResponsableAction);
-router.get('/:id',authorize("Admin"),GroupeResponsableActionController.getById);
-router.put('/:id',authorize("Admin"),GroupeResponsableActionController.updateGroupeResponsableAction);
-//router.get('/:id',companyController.updateCompany);
 
+router.get('/groupeByActionPlan/:id',GroupeResponsableActionController.getGroupeByActionPlan);
+
+router.post('/AddGroup',GroupeResponsableActionController.createGroupeResponsableAction);
+router.delete('/:id',GroupeResponsableActionController.deleteGroupeResponsableAction);
+router.get('/:id',GroupeResponsableActionController.getById);
+router.put('/:id',GroupeResponsableActionController.updateGroupeResponsableAction);
+//router.get('/:id',companyController.updateCompany);
+//getGroupeByActionPlan
 module.exports = router;

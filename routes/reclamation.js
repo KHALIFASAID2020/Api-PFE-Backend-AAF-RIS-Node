@@ -10,10 +10,10 @@ router.get('/getAllReclamationByDestination/:id',reclamationController.getAllRec
 
 router.get('/getAllReclamationByCreator/:id',reclamationController.getAllReclamationByCreator);
 //getAllReclamationByCreator
-router.post('/AddReclamation',authorize("Admin"),reclamationController.createReclamation);
-router.delete('/:id',authorize("Admin"),reclamationController.deleteReclamation);
-router.get('/:id',authorize("Admin"),reclamationController.getById);
-router.put('/:id',authorize("Admin"),reclamationController.updateReclamation);
+router.post('/AddReclamation',authorize(),reclamationController.createReclamation);
+router.delete('/:id',authorize(),reclamationController.deleteReclamation);
+router.get('/:id',authorize(),reclamationController.getById);
+router.put('/:id',authorize(),reclamationController.updateReclamation);
 //router.get('/:id',companyController.updateCompany);
 
 module.exports = router;

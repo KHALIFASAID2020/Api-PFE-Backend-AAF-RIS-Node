@@ -11,7 +11,7 @@ const {User}= require('../models/User');
 
 const getAllAction=(req,res,next)=>{
     //sort('companyName').
-    Action.find().sort('RefAction').then(action=>{
+    Action.find().sort('position').then(action=>{
 if(action){
     res.status(200).json(action);
 }else{
@@ -24,7 +24,7 @@ if(action){
 const getById = (req,res,next)=>{
     Action.findById(req.params.id).then(action=>{
     if(action){
-        res.status(200).json(actionplan);
+        res.status(200).json(action);
 
     }else{
         res.status(404).json({ message: "Action Plan not found!" });
@@ -54,13 +54,14 @@ ActionPlanId:Joi.string().required(),
 ResponsableActionId:Joi.string().required(),
 TypeActionId:Joi.string().required() */
  
-const actionplan = await ActionPlan.findById(req.body.ActionPlanId);
+const actionplan = await ActionPlan.findById(req.body.actionplan);
 if (!actionplan) return res.status(400).send('Invalid Action Plan.');
 
-const responsableAction = await User.findById(req.body.ResponsableActionId);
+const responsableAction = await User.findById(req.body.responsableAction);
 if (!responsableAction) return res.status(400).send('Invalid Responsable Action.');
 
-const typeAction = await TypeAction.findById(req.body.TypeActionId);
+
+const typeAction = await TypeAction.findById(req.body.typeAction);
 if (!typeAction) return res.status(400).send('Invalid Type Action.');
 
 
@@ -69,13 +70,21 @@ if (!typeAction) return res.status(400).send('Invalid Type Action.');
 
 
 let action = new Action({
-    RefAction :req.body.RefAction,
-    Status : req.body.Status,
-    Description : req.body.Description,
-    ActionPlanId:actionplan._id,
-    ResponsableActionId:responsableAction._id,
-    TypeActionId:typeAction._id
+    refAction :req.body.refAction,
+    position : req.body.position,
+    status : req.body.status,
+    description:req.body.description,
+    actionplan:actionplan._id,
+    responsableAction:responsableAction._id,
+    typeAction:typeAction._id
 
+    /* refAction : Joi.string().required(),
+    position:Joi.string().required(),
+    Status : Joi.string().required(),
+    description : Joi.string().required(),
+    actionPlan:Joi.string().required(),
+    responsableAction:Joi.string().required(),
+    typeAction:Joi.string().required() */
     
 });
 action.save().then(result=>{
@@ -95,24 +104,25 @@ const updateAction =async (req,res,next)=>{
 const { error }= validate(req.body);
 if(error) return res.status(400).send(error.details[0].message);
 
-  
-const actionplan = await ActionPlan.findById(req.body.ActionPlanId);
+const actionplan = await ActionPlan.findById(req.body.actionplan);
 if (!actionplan) return res.status(400).send('Invalid Action Plan.');
 
-const responsableAction = await User.findById(req.body.ResponsableActionId);
+const responsableAction = await User.findById(req.body.responsableAction);
 if (!responsableAction) return res.status(400).send('Invalid Responsable Action.');
 
-const typeAction = await TypeAction.findById(req.body.TypeActionId);
+
+const typeAction = await TypeAction.findById(req.body.typeAction);
 if (!typeAction) return res.status(400).send('Invalid Type Action.');
 
 const action = Action.findByIdAndUpdate(req.params.id,{
     
-    RefAction :req.body.RefAction,
-    Status : req.body.Status,
-    Description : req.body.Description,
-    ActionPlanId:actionplan._id,
-    ResponsableActionId:responsableAction._id,
-    TypeActionId:typeAction._id
+    refAction :req.body.refAction,
+    position : req.body.position,
+    status : req.body.status,
+    description:req.body.description,
+    actionplan:actionplan._id,
+    responsableAction:responsableAction._id,
+    typeAction:typeAction._id
 
 },{new:true}).then(result => {
     res.status(201).json({
