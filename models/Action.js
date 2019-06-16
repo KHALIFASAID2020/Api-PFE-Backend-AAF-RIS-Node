@@ -27,8 +27,13 @@ const ActionSchema = new mongoose.Schema({
     },
     typeAction:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'TypeAction'
+        ref:'TypeActionPlan'
+    },
+    dateResponse:{
+        type: Date, required: true    
     }
+},{
+    timestamps : true
 });
 ActionSchema.plugin(uniqueValidator);
 
@@ -40,9 +45,10 @@ function validateAction(actionplan){
         position:Joi.string().required(),
         status : Joi.string().required(),
         description : Joi.string().required(),
-        actionplan:Joi.string().required(),
+       // actionplan:Joi.string().required(),
         responsableAction:Joi.string().required(),
-        typeAction:Joi.string().required()
+       // typeAction:Joi.string().required()
+       dateResponse: Joi.date().required()
     };
     return Joi.validate(actionplan,schema);
 }

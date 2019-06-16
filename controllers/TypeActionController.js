@@ -1,12 +1,12 @@
-const {TypeAction,validate} = require('../models/TypeAction');
+const {TypeActionPlan,validateType} = require('../models/TypeActionPlan');
 
 
 
 const getAllTypeAction=(req,res,next)=>{
     //sort('companyName').
-    TypeAction.find().sort('TypeAction').then(typeaction=>{
-if(typeaction){
-    res.status(200).json(typeaction);
+    TypeActionPlan.find().sort('typeAction').then(result=>{
+if(result){
+    res.status(200).json(result);
 }else{
     res.status(404).json({ message: "type Action not found!" });
 }
@@ -15,7 +15,7 @@ if(typeaction){
 }//aaf.ris.manager.2020
 
 const getById = (req,res,next)=>{
-    TypeAction.findById(req.params.id).then(type=>{
+    TypeActionPlan.findById(req.params.id).then(type=>{
     if(type){
         res.status(200).json(type);
 
@@ -27,7 +27,7 @@ const getById = (req,res,next)=>{
 
 
 const deleteTypeAction =(req,res,next)=>{
-    TypeAction.deleteOne({_id: req.params.id}).then(result=>{
+    TypeActionPlan.deleteOne({_id: req.params.id}).then(result=>{
 if(result.n>0){
     res.status(200).json({message : 'Deleted Successful !'});
 
@@ -39,16 +39,16 @@ if(result.n>0){
 }
  
 const createTypeAction=  (req,res,next)=>{
-const { error }= validate(req.body);
+const { error }= validateType(req.body);
 if(error) return res.status(400).send(error.details[0].message);
 
 //const type = Type.findById(req.body.typeId);
   //  if (!type) return res.status(400).send('Invalid Type.');
 
-let typeAction = new TypeAction({
-    TypeAction : req.body.TypeAction,
+let typeActionPlan = new TypeActionPlan({
+    typeAction : req.body.typeAction,
 });
-typeAction.save().then(result=>{
+typeActionPlan.save().then(result=>{
     res.status(201).json({
         message : 'Action Type Created',
         result: result
@@ -62,11 +62,11 @@ typeAction.save().then(result=>{
 }
 
 const updateTypeAction= (req,res,next)=>{
-const { error }= validate(req.body);
+const { error }= validateType(req.body);
 if(error) return res.status(400).send(error.details[0].message);
 
-const typeaction = TypeAction.findByIdAndUpdate(req.params.id,{
-    TypeAction : req.body.TypeAction
+const typeaction = TypeActionPlan.findByIdAndUpdate(req.params.id,{
+    typeAction : req.body.typeAction
 },{new:true}).then(result => {
     res.status(201).json({
         message : 'Action Type Updated',

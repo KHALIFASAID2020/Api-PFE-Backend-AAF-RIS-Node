@@ -2,23 +2,23 @@ const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 const Joi =require('joi');
 
-const TypeActionSchema = new mongoose.Schema({
+const TypeActionPlanSchema = new mongoose.Schema({
     typeAction : {
         type: String, required: true,unique:true
     }
 });
-TypeActionSchema.plugin(uniqueValidator);
+TypeActionPlanSchema.plugin(uniqueValidator);
 
-const TypeAction = mongoose.model('TypeAction',TypeActionSchema);
+const TypeActionPlan = mongoose.model('TypeActionPlan',TypeActionPlanSchema);
 
-function validateDocument(typeaction){
+function validateType(typeactionplanvalidate){
     const schema = {
         typeAction : Joi.string().required()
     };
-    return Joi.validate(typeaction,schema);
+    return Joi.validate(typeactionplanvalidate,schema);
 }
-exports.TypeAction = TypeAction;
-exports.validate=validateDocument;
+exports.TypeActionPlan = TypeActionPlan;
+exports.validateType=validateType;
 /* 
 const Schema = mongoose.Schema;
 
