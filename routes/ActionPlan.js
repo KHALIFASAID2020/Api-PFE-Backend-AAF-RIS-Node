@@ -12,8 +12,10 @@ router.get('/getActionPlanByComplaint/:id',ActionPlanController.getActionPlanByC
 router.delete('/:id',authorize("Admin"),ActionPlanController.deleteActionPlan);
 router.get('/:id',ActionPlanController.getById);
 router.put('/updateActionPlanTeamLeader/:id',ActionPlanController.updateActionPlanTeamLeader);
+router.get('/getAllActionPlanTeamLeader/:id',ActionPlanController.getAllActionPlanTeamLeader);
 
 router.put('/:id',authorize("Admin"),ActionPlanController.updateActionPlan);
 //router.get('/:id',companyController.updateCompany);
 
 module.exports = router;
+//getAllActionPlanTeamLeader

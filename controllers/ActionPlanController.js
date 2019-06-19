@@ -160,6 +160,21 @@ const actionplan = ActionPlan.findByIdAndUpdate(req.params.id,{
 
 
 
+const getAllActionPlanTeamLeader=(req,res,next)=>{
+    ActionPlan.find(({teamLeader:{_id:req.params.id}})).populate('reclamation teamLeader teamLeader.company').then(actionplan=>{
+    if(actionplan){
+        res.status(200).json(actionplan);
+    }else{
+        res.status(404).json({ message: "Action Plan not found!" });
+    }
+});
+}
+
+
+
+
+
+
 const updateActionPlanTeamLeader =async (req,res,next)=>{
     /* const { error }= validate(req.body);
     if(error) return res.status(400).send(error.details[0].message);
@@ -193,4 +208,4 @@ const updateActionPlanTeamLeader =async (req,res,next)=>{
 
 
 
-module.exports = {createActionPlan,updateActionPlan,deleteActionPlan,getActionPlanByComplaint,getAllActionPlan,getById,updateActionPlanTeamLeader}
+module.exports = {createActionPlan,updateActionPlan,getAllActionPlanTeamLeader,deleteActionPlan,getActionPlanByComplaint,getAllActionPlan,getById,updateActionPlanTeamLeader}

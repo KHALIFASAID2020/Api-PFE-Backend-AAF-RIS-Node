@@ -5,6 +5,8 @@ const authorize = require('../_helpers/authorize');
 var ActionController = require('../controllers/ActionController');
 /* GET users listing. */
 router.get('/getActions',ActionController.getActions);
+//updateActionByCreator
+router.put('/updateActionByCreator/:id',ActionController.updateActionByCreator);
 
 router.get('/',ActionController.getAllAction);
 router.post('/AddAction',ActionController.createAction);
@@ -13,7 +15,8 @@ router.get('/:id',ActionController.getById);
 router.put('/:id',ActionController.updateAction);
 //router.get('/:id',companyController.updateCompany);
  router.get('/AllContainementActionsByActionPlanId/:id',ActionController.AllContainementActionsByActionPlanId);
- 
+ //getAllActionReceived
+ router.get('/getAllActionReceived/:id',ActionController.getAllActionReceived);
 
 module.exports = router;
 //TypeAction

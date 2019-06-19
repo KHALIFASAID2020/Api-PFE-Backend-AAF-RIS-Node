@@ -14,7 +14,7 @@ const AllContainementActionsByActionPlanId=async(req,res,next)=>{
     if (!typeAction) return res.status(400).send('Invalid Type Action.');
 //,{actionplan:{_id:req.params.id}}   {typeAction:{_id:typeAction._id}}
     //sort('companyName').
-    Action.find({typeAction:{_id:typeAction._id},actionplan:{_id:req.params.id}}).populate('actionplan').sort('position').then(action=>{
+    Action.find({typeAction:{_id:typeAction._id},actionplan:{_id:req.params.id}}).populate('actionplan responsableAction').sort('position').then(action=>{
 if(action){
     res.status(200).json(action);
 }else{
@@ -36,15 +36,30 @@ if(action){
 }//aaf.ris.manager.2020
 
 const getById = (req,res,next)=>{
-    Action.findById(req.params.id).then(action=>{
+    Action.findById(req.params.id).populate('actionplan responsableAction').then(action=>{
     if(action){
         res.status(200).json(action);
 
+    }else{
+        res.status(404).json({ message: "Action  not found!" });
+    }
+});
+}
+
+//getAllActionReceived
+const getAllActionReceived=(req,res,next)=>{
+    Action.find(({responsableAction:{_id:req.params.id}})).populate('actionplan responsableAction').then(actionplan=>{
+    if(actionplan){
+        res.status(200).json(actionplan);
     }else{
         res.status(404).json({ message: "Action Plan not found!" });
     }
 });
 }
+
+
+
+
 
 const getActions =async (req,res,next)=>{
 
@@ -111,7 +126,9 @@ let action = new Action({
     actionplan:actionplan._id,
     responsableAction:responsableAction._id,
     typeAction:typeAction._id,
-    dateResponse:req.body.dateResponse
+    dateResponse:req.body.dateResponse,
+    responseDescription:' ',
+  photo:' '
 
     /* refAction : Joi.string().required(),
     position:Joi.string().required(),
@@ -134,6 +151,67 @@ action.save().then(result=>{
     });
 });
 }
+//updateActionByCreator
+const updateActionByCreator =async (req,res,next)=>{
+  /*   const { error }= validate(req.body);
+    if(error) return res.status(400).send(error.details[0].message);
+    
+    const actionplan = await ActionPlan.findById(req.body.actionplan);
+    if (!actionplan) return res.status(400).send('Invalid Action Plan.');
+    
+    const responsableAction = await User.findById(req.body.responsableAction);
+    if (!responsableAction) return res.status(400).send('Invalid Responsable Action.');
+    
+    
+    const typeAction = await TypeActionPlan.findById(req.body.typeAction);
+    if (!typeAction) return res.status(400).send('Invalid Type Action.');
+     */
+    
+    
+    const action = Action.findByIdAndUpdate(req.params.id,{
+        
+        dateResponse :req.body.dateResponse,
+        description : req.body.description,
+        position : req.body.position,
+        responsableAction:req.body.responsableAction
+    
+    },{new:true}).then(result => {
+        res.status(201).json({
+            message : 'Action  Updated',
+            result: result
+        });
+    }).catch(err=>{
+        res.status(500).json({
+            message : 'Action  Update',
+            error: err
+        });  
+    });
+    
+    
+    }
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const updateAction =async (req,res,next)=>{
 const { error }= validate(req.body);
@@ -182,4 +260,4 @@ const action = Action.findByIdAndUpdate(req.params.id,{
 
 /* AllContainementActionsByActionPlanId, */
 
-module.exports = {AllContainementActionsByActionPlanId,getActions,getAllAction,deleteAction,deleteAction,createAction,updateAction,getById}
+module.exports = {AllContainementActionsByActionPlanId,getActions,updateActionByCreator,getAllActionReceived,getAllAction,deleteAction,deleteAction,createAction,updateAction,getById}

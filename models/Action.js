@@ -12,7 +12,7 @@ const ActionSchema = new mongoose.Schema({
         type: String, required: true
     },
     position : {
-        type: String, required: true,unique:true
+        type: Number, required: true
     },
     description : {
         type: String, required: true
@@ -31,7 +31,15 @@ const ActionSchema = new mongoose.Schema({
     },
     dateResponse:{
         type: Date, required: true    
+    },
+    responseDescription:{
+        type: String, required: true   
+    },
+    photo:{
+        type: String, required: true 
     }
+    /* responseDescription?:string;
+  photo?:string; */
 },{
     timestamps : true
 });
@@ -42,7 +50,7 @@ const Action = mongoose.model('Action',ActionSchema);
 function validateAction(actionplan){
     const schema = {
         refAction : Joi.string().required(),
-        position:Joi.string().required(),
+        position:Joi.number().required(),
         status : Joi.string().required(),
         description : Joi.string().required(),
        // actionplan:Joi.string().required(),
