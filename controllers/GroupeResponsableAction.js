@@ -66,6 +66,8 @@ if(error) return res.status(400).send(error.details[0].message);
 
 const actionplan = await ActionPlan.findById(req.body.actionplan);
     if (!actionplan) return res.status(400).send('Invalid Action Plan.');
+
+    
     //res.send(actionplan._id);
 
 let grouperesponsable = new GroupeResponsableAction({

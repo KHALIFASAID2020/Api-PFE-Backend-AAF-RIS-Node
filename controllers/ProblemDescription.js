@@ -49,8 +49,7 @@ const actionplan = await ActionPlan.findById(req.body.actionplan);
     //res.send(actionplan._id);
 
 let problemDescription = new ProblemDescription({
-    RefDescriptionProblem :req.body.RefDescriptionProblem,
-    actionplan:actionplan._id,
+        actionplan:actionplan._id,
     description:req.body.description
 });
 problemDescription.save().then(result=>{
@@ -66,6 +65,25 @@ problemDescription.save().then(result=>{
 }); 
 }
 
+//getDescriptionByIdPlan
+const getDescriptionByIdPlan = (req,res,next)=>{
+    ProblemDescription.find({actionplan:req.params.id}).then(descriptionProblem=>{
+    if(descriptionProblem){
+        res.status(200).json(descriptionProblem);
+
+    }else{
+        res.status(404).json({ message: "Description not found!" });
+    }
+});
+}
+
+
+
+
+
+
+
+
 const updateProblemDescription= async (req,res,next)=>{
 const { error }= validate(req.body);
 if(error) return res.status(400).send(error.details[0].message);
@@ -76,7 +94,6 @@ const actionplan = await ActionPlan.findById(req.body.actionplan);
 
 
 const description = ProblemDescription.findByIdAndUpdate(req.params.id,{
-    RefDescriptionProblem :req.body.RefDescriptionProblem,
     actionplan:actionplan._id,
     description:req.body.description
 },{new:true}).then(result => {
@@ -95,4 +112,4 @@ const description = ProblemDescription.findByIdAndUpdate(req.params.id,{
 }
  
 
-module.exports = {updateProblemDescription,createProblemDescription,deleteProblemDescription,getAllProblemDescription,getByIdProblemDescription}
+module.exports = {updateProblemDescription,getDescriptionByIdPlan,createProblemDescription,deleteProblemDescription,getAllProblemDescription,getByIdProblemDescription}

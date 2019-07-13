@@ -68,11 +68,18 @@ if(error) return res.status(400).send(error.details[0].message);
 
 
 
-const responsableAction = await User.findById(req.body.responsableAction);
+    const responsableAction = await User.findById(req.body.responsableAction);
     if (!responsableAction) return res.status(400).send('Invalid Responsable.');
   
     const groupeResponsableAction = await GroupeResponsableAction.findOne(({actionplan:{_id:req.params.id}}));
     if (!groupeResponsableAction) return res.status(400).send('Invalid Group.');
+
+    const ResponsableExist = await ResponsableAction.findOne({groupeResponsableAction:{_id:groupeResponsableAction._id},responsableAction:{_id:responsableAction._id}});
+    if (ResponsableExist) return res.status(400).send('Responsable Exist.');
+
+
+    
+
 
     console.log(groupeResponsableAction._id);
 

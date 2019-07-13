@@ -6,6 +6,25 @@ const {Company} = require('../models/Company');
 const {User}= require('../models/User');
 
 
+const getGroupByTypeReclamation=(req,res,next)=>{
+    
+    Reclamation.aggregate([
+        {
+            $group: {
+                _id: '$typecompany',  //$region is the column name in collection
+                count: {$sum: 1}
+            }
+        }
+    ], function (err, result) {
+        if (err) {
+            next(err);
+        } else {
+            res.json(result);
+        }
+    });
+
+}
+
 
 const getAllReclamation=(req,res,next)=>{
     //sort('companyName').
@@ -19,6 +38,23 @@ if(reclamation){
 });
 //res.send(company);
 }//aaf.ris.manager.2020
+
+//getCountAllReclamationByDestination
+
+const getCountAllReclamationByDestination=(req,res,next)=>{
+    //sort('companyName').
+Reclamation.count({destination:{_id:req.params.id}}).then(reclamation=>{
+if(reclamation){
+    res.status(200).json(reclamation);
+}else{
+    res.status(404).json(0);
+}
+});
+//res.send(company);
+}//aaf.ris.manager.2020
+
+
+
 
 
 
@@ -201,4 +237,4 @@ const reclamation = Reclamation.findByIdAndUpdate(req.params.id,{
 
 
 
-module.exports = {getAllReclamation,updateReclamation,createReclamation,deleteReclamation,getAllReclamationByDestination,getAllReclamationByCreator,getAllReclamation,getById}
+module.exports = {getAllReclamation,updateReclamation,getGroupByTypeReclamation,getCountAllReclamationByDestination,createReclamation,deleteReclamation,getAllReclamationByDestination,getAllReclamationByCreator,getAllReclamation,getById}

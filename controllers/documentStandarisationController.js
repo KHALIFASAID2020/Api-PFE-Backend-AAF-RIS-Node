@@ -1,4 +1,4 @@
-const {DocumentStandarisation,validate} = require('../models/DocumentStansarisation');
+const {DocumentStandarisation,validate} = require('../models/DocumentStandarisation');
 
 const getAllDocument=(req,res,next)=>{
     //sort('companyName').

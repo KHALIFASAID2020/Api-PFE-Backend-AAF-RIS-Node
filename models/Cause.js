@@ -3,16 +3,19 @@ const uniqueValidator = require('mongoose-unique-validator');
 const Joi =require('joi');
 
 const Causechema = new mongoose.Schema({
-    causeDefaut : {
-        type: String, required: true,unique:true
+    rootCause : {
+        type: String, required: true
     },
     analysisMethod:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'AnalysisMethod'
     },
-    DescriptionCause:{
+    pourcent:{
         type : String,
         required:true
+    },actionplan:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'ActionPlan'
     }
 });
 Causechema.plugin(uniqueValidator);
@@ -21,9 +24,9 @@ const Cause = mongoose.model('Cause',Causechema);
 
 function validateCause(cause){
     const schema = {
-        causeDefaut : Joi.string().required(),
-        analysisMethodId:Joi.string(),
-        DescriptionCause:Joi.string().required(),
+        rootCause : Joi.string().required(),
+        analysisMethod:Joi.string().required(),
+        pourcent:Joi.string().required()
     };
     return Joi.validate(cause,schema);
 }

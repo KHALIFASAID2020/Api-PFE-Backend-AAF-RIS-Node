@@ -8,16 +8,19 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const produitRouter =require('./routes/produit');
 const reclamationRouter = require('./routes/reclamation');
-const documentStansarisationRouter = require('./routes/documentStansarisation');
+const documentStandarisationRouter = require('./routes/documentStandarisation');
 const typeActionRouter = require('./routes/typeAction');
 const  analysisMethodRouter= require('./routes/analysisMethod');
 const  causeRouter= require('./routes/cause');
 const ActionPlanRouter = require('./routes/ActionPlan');
 const ActionRouter = require('./routes/Action');
+const ActionCorretiveRouter= require('./routes/ActionCorrective');
 const GroupeRouter = require('./routes/GroupeResponsable');
+const PreventiveActionsRouter=require('./routes/PreventiveActions');
 //Action
 const CommandeRouter = require('./routes/Commande');
-
+//Reviewoftheeffectiveness
+const ReviewoftheeffectivenessRouter = require('./routes/ActionReviewoftheeffectiveness');
 const problemDescriptionRouter =require('./routes/ProblemDescription');
 const responsableActionrouter = require('./routes/ResponsableAction');
 const typeCompanyRouter =require('./routes/typeCompany');
@@ -55,20 +58,23 @@ app.use('/produit', produitRouter);
 app.use('/defaut', defautRouter);
 app.use('/typeCompany', typeCompanyRouter);
 app.use('/reclamation',reclamationRouter);
-app.use('/documentStansarisation',documentStansarisationRouter);
+app.use('/documentStandarisation',documentStandarisationRouter);
 app.use('/typeAction',typeActionRouter);
 app.use('/analysisMethod',analysisMethodRouter);
 app.use('/cause',causeRouter);
 app.use('/ActionPlan',ActionPlanRouter);
 app.use('/Action',ActionRouter);
 app.use('/Groupe',GroupeRouter);
-app.use('/problemdescription',problemDescriptionRouter)
+app.use('/problemdescription',problemDescriptionRouter);
 app.use('/responsableAction',responsableActionrouter);
+app.use('/Reviewoftheeffectiveness',ReviewoftheeffectivenessRouter);
+//ReviewoftheeffectivenessRouter
+//AddPreventiveActionsRouter
+app.use('/PreventiveActions',PreventiveActionsRouter);
 
-
+app.use('/ActionCorretive',ActionCorretiveRouter);
 app.use('/commande',CommandeRouter);
 //ActionRouter
-
 
 
 

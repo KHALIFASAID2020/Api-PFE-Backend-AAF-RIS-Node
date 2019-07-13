@@ -7,8 +7,13 @@ var reclamationController = require('../controllers/reclamationController')
 router.get('/',reclamationController.getAllReclamation);
 //getAllReclamationByDestination
 router.get('/getAllReclamationByDestination/:id',reclamationController.getAllReclamationByDestination);
+//getGroupByTypeReclamation
+router.get('/getGroupByTypeReclamation/',reclamationController.getGroupByTypeReclamation);
 
 router.get('/getAllReclamationByCreator/:id',reclamationController.getAllReclamationByCreator);
+//getCountAllReclamationByDestination
+router.get('/getCountAllReclamationByDestination/:id',reclamationController.getCountAllReclamationByDestination);
+
 //getAllReclamationByCreator
 router.post('/AddReclamation',authorize(),reclamationController.createReclamation);
 router.delete('/:id',authorize(),reclamationController.deleteReclamation);

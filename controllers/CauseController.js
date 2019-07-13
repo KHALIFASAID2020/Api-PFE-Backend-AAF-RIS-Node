@@ -1,5 +1,6 @@
 const {Cause,validate} = require('../models/Cause');
 const {AnalysisMethod} = require('../models/AnalysisMethod');
+const {ActionPlan} = require('../models/ActionPlan');
 
 
 const getAllCause=(req,res,next)=>{
@@ -26,6 +27,21 @@ Cause.findById(req.params.id).then(cause=>{
 }
 
 
+//getAllRootCauseByActionPlan
+
+const getAllRootCauseByActionPlan = (req,res,next)=>{
+    Cause.find({actionplan:{_id:req.params.id}}).populate('analysisMethod actionplan').then(cause=>{
+        if(cause){
+            res.status(200).json(cause);
+    
+        }else{
+            res.status(404).json({ message: "Cause not found!" });
+        }
+    });
+    }
+
+
+
 const deleteCause =(req,res,next)=>{
     Cause.deleteOne({_id: req.params.id}).then(result=>{
 if(result.n>0){
@@ -42,16 +58,22 @@ const createCause=  async(req,res,next)=>{
 const { error }= validate(req.body);
 if(error) return res.status(400).send(error.details[0].message);
 
-const analysisMethod = await AnalysisMethod.findById(req.body.analysisMethodId);
+const analysisMethod = await AnalysisMethod.findById(req.body.analysisMethod);
     if (!analysisMethod) return res.status(400).send('Invalid  Method.');
+
+    const actionplan = await ActionPlan.findById(req.params.id);
+    if (!actionplan) return res.status(400).send('Invalid  actionplan.');
 //const type = Type.findById(req.body.typeId);
   //  if (!type) return res.status(400).send('Invalid Type.');
 
 let cause = new Cause({
 
-    causeDefaut : req.body.causeDefaut,
-    analysisMethod:analysisMethod._id,
-    DescriptionCause:req.body.DescriptionCause
+    rootCause :req.body.rootCause,
+        analysisMethod:analysisMethod._id,
+        pourcent:req.body.pourcent,
+        actionplan:actionplan._id
+
+
 });
 cause.save().then(result=>{
     res.status(201).json({
@@ -69,13 +91,14 @@ cause.save().then(result=>{
 const updateCause = async (req,res,next)=>{
 const { error }= validate(req.body);
 if(error) return res.status(400).send(error.details[0].message);
-
-const analysisMethod = await AnalysisMethod.findById(req.body.analysisMethodId);
+const analysisMethod = await AnalysisMethod.findById(req.body.analysisMethod);
     if (!analysisMethod) return res.status(400).send('Invalid  Method.');
+
+
 const cause = Cause.findByIdAndUpdate(req.params.id,{
-    causeDefaut : req.body.causeDefaut,
-    analysisMethod:analysisMethod._id,
-    DescriptionCause:req.body.DescriptionCause
+    rootCause :req.body.rootCause,
+    analysisMethod:req.body.analysisMethod,
+    pourcent:req.body.pourcent
 },{new:true}).then(result => {
     res.status(201).json({
         message : 'Cause Updated',
@@ -92,4 +115,4 @@ const cause = Cause.findByIdAndUpdate(req.params.id,{
 }
 
 
-module.exports = {updateCause,createCause,deleteCause,getById,getAllCause}
+module.exports = {updateCause,createCause,deleteCause,getById,getAllCause,getAllRootCauseByActionPlan}

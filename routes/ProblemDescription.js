@@ -8,5 +8,8 @@ router.post('/createdescription',ProblemDescriptionController.createProblemDescr
 router.delete('/:id',ProblemDescriptionController.deleteProblemDescription);
 router.get('/:id',ProblemDescriptionController.getByIdProblemDescription);
 router.put('/:id',ProblemDescriptionController.updateProblemDescription);
+router.get('/getDescriptionByIdPlan/:id',ProblemDescriptionController.getDescriptionByIdPlan);
+
+
 
 module.exports = router;

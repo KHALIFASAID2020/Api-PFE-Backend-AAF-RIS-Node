@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 const Joi =require('joi');
 
-const ActionSchema = new mongoose.Schema({
+const ActionReviewoftheeffectivenessSchema = new mongoose.Schema({
     refAction : {
         type: String, required: true,unique:true
     },
@@ -30,7 +30,7 @@ const ActionSchema = new mongoose.Schema({
         ref:'TypeActionPlan'
     },
     dateResponse:{
-        type: String, required: true    
+        type: Date, required: true    
     },
     responseDescription:{
         type: String, required: true   
@@ -38,24 +38,20 @@ const ActionSchema = new mongoose.Schema({
     photo:{
         type: String, required: true 
     },
-    photo:{
-        type: String, required: true 
-    },
-    cause:{
+    ActionCorrective:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'Cause'
+        ref:'ActionCorrective'
     }
-        
     /* responseDescription?:string;
   photo?:string; */
 },{
     timestamps : true
 });
-ActionSchema.plugin(uniqueValidator);
+ActionReviewoftheeffectivenessSchema.plugin(uniqueValidator);
 
-const Action = mongoose.model('Action',ActionSchema);
+const ActionReviewoftheeffectiveness = mongoose.model('ActionReviewoftheeffectiveness',ActionReviewoftheeffectivenessSchema);
 
-function validateAction(actionplan){
+function validateActionReviewoftheeffectiveness(actionReviewoftheeffectiveness){
     const schema = {
         refAction : Joi.string().required(),
         position:Joi.number().required(),
@@ -63,28 +59,13 @@ function validateAction(actionplan){
         description : Joi.string().required(),
        // actionplan:Joi.string().required(),
         responsableAction:Joi.string().required(),
-       // typeAction:Joi.string().required()
-       dateResponse: Joi.string().required(),
-       cause:Joi.string()
+        //typeAction:Joi.string().required(),
+        dateResponse: Joi.date().required(),
+        ActionCorrective: Joi.string().required()
     };
-    return Joi.validate(actionplan,schema);
+    return Joi.validate(actionReviewoftheeffectiveness,schema);
 }
 
 
-exports.Action = Action;
-exports.validate=validateAction;
-/* 
-const Schema = mongoose.Schema;
-
-const companySchema = new Schema({
-    name : {type: String, required: true, unique: true},
-    address : {type : String , required: true},
-    pays : {type : String , required: true},
-    website : {type : String , required: true}
-},{
-    timestamps : true
-});
-userSchema.plugin(uniqueValidator);
-
-const User = mongoose.model('Company',userSchema);
-module.exports = User; */
+exports.ActionReviewoftheeffectiveness = ActionReviewoftheeffectiveness;
+exports.validate=validateActionReviewoftheeffectiveness;

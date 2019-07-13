@@ -3,15 +3,12 @@ const uniqueValidator = require('mongoose-unique-validator');
 const Joi =require('joi');
 
 const ProblemDescriptionSchema = new mongoose.Schema({
-    RefDescriptionProblem: {
-        type: String, required: true,unique:true
-    },
     actionplan:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'ActionPlan'
     },
     description:{
-        type: String, required: true,unique:true
+        type: String, required: true
     }
 });
 ProblemDescriptionSchema.plugin(uniqueValidator);
@@ -20,7 +17,6 @@ const ProblemDescription = mongoose.model('ProblemDescription',ProblemDescriptio
 
 function validateActionPlan(problemDescription){
     const schema = {
-        RefDescriptionProblem : Joi.string().required(),
         actionplan:Joi.string().required(),
         description:Joi.string().required()
     };

@@ -71,6 +71,11 @@ if(result.n>0){
     })
 }
 
+
+
+
+
+
 const createActionPlan=async  (req,res,next)=>{
 const { error }= validate(req.body);
 if(error) return res.status(400).send(error.details[0].message);
@@ -94,9 +99,9 @@ let actionplan = new ActionPlan({
 });
 actionplan.save().then(result=>{
     res.status(201).json({
-        message : 'Action Plan Created',
-        result: result,
-        id:result._id   
+      //  message : 'Action Plan Created',
+        //result: result,
+        _id:result._id   
     });
 //GroupeResponsableAction
     
@@ -143,7 +148,8 @@ const actionplan = ActionPlan.findByIdAndUpdate(req.params.id,{
     
     RefActionPlan : req.body.RefActionPlan,
     reclamation:reclamation._id,
-    teamLeader:teamLeader._id
+    teamLeader:teamLeader._id,
+    status:req.body.statuss
 
 },{new:true}).then(result => {
     res.status(201).json({
@@ -169,6 +175,18 @@ const getAllActionPlanTeamLeader=(req,res,next)=>{
     }
 });
 }
+//Action.count(({responsableAction:{_id:req.params.id},status:'Non Attribué'}))
+const getCountAllActionPlanTeamLeader=(req,res,next)=>{
+    //sort('companyName').
+    ActionPlan.countDocuments({teamLeader:{_id:req.params.id},status:'Non Cloturé'}).then(reclamation=>{
+if(reclamation){
+    res.status(200).json(reclamation);
+}else{
+    res.status(404).json(0);
+}
+});
+//res.send(company);
+}//aaf.ris.manager.2020
 
 
 
@@ -208,4 +226,4 @@ const updateActionPlanTeamLeader =async (req,res,next)=>{
 
 
 
-module.exports = {createActionPlan,updateActionPlan,getAllActionPlanTeamLeader,deleteActionPlan,getActionPlanByComplaint,getAllActionPlan,getById,updateActionPlanTeamLeader}
+module.exports = {createActionPlan,updateActionPlan,getAllActionPlanTeamLeader,getCountAllActionPlanTeamLeader,deleteActionPlan,getActionPlanByComplaint,getAllActionPlan,getById,updateActionPlanTeamLeader}

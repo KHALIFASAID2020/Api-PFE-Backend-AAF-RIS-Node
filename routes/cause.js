@@ -5,10 +5,14 @@ const authorize = require('../_helpers/authorize');
 var CauseController = require('../controllers/CauseController')
 /* GET users listing. */
 router.get('/',CauseController.getAllCause);
-router.post('/AddCause',authorize("Admin"),CauseController.createCause);
-router.delete('/:id',authorize("Admin"),CauseController.deleteCause);
-router.get('/:id',authorize("Admin"),CauseController.getById);
-router.put('/:id',authorize("Admin"),CauseController.updateCause);
+router.post('/AddCause/:id',CauseController.createCause);
+router.delete('/:id',CauseController.deleteCause);
+router.get('/:id',CauseController.getById);
+router.put('/:id',CauseController.updateCause);
 //router.get('/:id',companyController.updateCompany);
+router.get('/getAllRootCauseByActionPlan/:id',CauseController.getAllRootCauseByActionPlan);
 
 module.exports = router;
+
+/* this.rootCauseService.getAllAnalysisMethod(`cause/getAllAnalysisMethod/${id}`).subscribe(result => {
+ */
