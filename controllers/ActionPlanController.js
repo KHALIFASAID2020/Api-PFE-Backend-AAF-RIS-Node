@@ -4,6 +4,7 @@ const {Reclamation} = require('../models/Reclamation');
 const {User}= require('../models/User');
 const {GroupeResponsableAction}= require('../models/GroupeResponsableAction');
 
+const {Action} =require('../models/Action');
 
 
 /* 
@@ -223,7 +224,81 @@ const updateActionPlanTeamLeader =async (req,res,next)=>{
     }
 //updateActionPlanTeamLeader
 
+const updateActionStatus =async (req,res,next)=>{
+
+    const actionplanStatus = ActionPlan.findByIdAndUpdate(req.params.id,{
+        status:req.body.status
+    
+    },{new:true}).then(result => {
+        res.status(201).json({
+            message : 'Status for this Plan Updated',
+            result: result
+        });
+    }).catch(err=>{
+        res.status(500).json({
+            message : 'Error for updeted',
+            error: err
+        });  
+    });
+}
+
+
+    
+   /*  if(req.body.status=='Cloturé'){
+        console.log(req.body.status);
+        Action.find({actionplan:req.params.id}).then(action=>{
+            if(action.status=="Validé"){
+               res.status(404).json({ message: "you have an action not valildate!" });
+               //res.status(200).json(action);
+            }else{
+
+                const actionplanStatus = ActionPlan.findByIdAndUpdate(req.params.id,{
+                    status:req.body.status
+                
+                },{new:true}).then(result => {
+                    res.status(201).json({
+                        message : 'Status for this Plan Updated',
+                        result: result
+                    });
+                }).catch(err=>{
+                    res.status(500).json({
+                        message : 'Error for updeted',
+                        error: err
+                    });  
+                });
+            }
+            });
 
 
 
-module.exports = {createActionPlan,updateActionPlan,getAllActionPlanTeamLeader,getCountAllActionPlanTeamLeader,deleteActionPlan,getActionPlanByComplaint,getAllActionPlan,getById,updateActionPlanTeamLeader}
+
+    }else{
+        const actionplanStatus = ActionPlan.findByIdAndUpdate(req.params.id,{
+        
+        
+            status:req.body.status
+        
+        },{new:true}).then(result => {
+            res.status(201).json({
+                message : 'Status for this Plan Updated',
+                result: result
+            });
+        }).catch(err=>{
+            res.status(500).json({
+                message : 'Error for updeted',
+                error: err
+            });  
+        });
+    } */
+/* 
+    const action = await Action.find(req.params.id);
+    if (!actioncorrective) return res.status(400).send('Invalid Action Corrective.');
+    */ 
+
+
+    
+    
+
+
+
+module.exports = {createActionPlan,updateActionPlan,updateActionStatus,getAllActionPlanTeamLeader,getCountAllActionPlanTeamLeader,deleteActionPlan,getActionPlanByComplaint,getAllActionPlan,getById,updateActionPlanTeamLeader}

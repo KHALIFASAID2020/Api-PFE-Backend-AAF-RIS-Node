@@ -44,7 +44,7 @@ const { error }= validate(req.body);
 if(error) return res.status(400).send(error.details[0].message);
 
 
-const actionplan = await ActionPlan.findById(req.body.actionplan);
+const actionplan = await ActionPlan.findById(req.query.idPlan);
     if (!actionplan) return res.status(400).send('Invalid Action Plan.');
     //res.send(actionplan._id);
 
@@ -85,16 +85,8 @@ const getDescriptionByIdPlan = (req,res,next)=>{
 
 
 const updateProblemDescription= async (req,res,next)=>{
-const { error }= validate(req.body);
-if(error) return res.status(400).send(error.details[0].message);
-
-
-const actionplan = await ActionPlan.findById(req.body.actionplan);
-    if (!actionplan) return res.status(400).send('Invalid Action Plan.');
-
 
 const description = ProblemDescription.findByIdAndUpdate(req.params.id,{
-    actionplan:actionplan._id,
     description:req.body.description
 },{new:true}).then(result => {
     res.status(201).json({

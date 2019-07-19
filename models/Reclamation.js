@@ -43,14 +43,10 @@ const reclamationSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'User'
     },
-    destination:[{
+    destination:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'User'
-    }],
-    destinationencopy:[{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'User'
-    }],
+    }
    
 
 },{
@@ -72,8 +68,8 @@ function validateReclamation(reclamation){
         defaut:Joi.string().required(),
         company:Joi.string().required(),
         creator:Joi.string().required(),
-        destination:Joi.array().required(),
-    destinationencopy:Joi.array().required()
+        destination:Joi.string().required(),
+  
     };
     return Joi.validate(reclamation,schema);
 }

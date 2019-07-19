@@ -15,7 +15,7 @@ const ActionSchema = new mongoose.Schema({
         type: Number, required: true
     },
     description : {
-        type: String, required: true
+        type: String
     },
     actionplan:{
         type:mongoose.Schema.Types.ObjectId,
@@ -29,9 +29,16 @@ const ActionSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'TypeActionPlan'
     },
-    dateResponse:{
+   
+    dateResponse: {
         type: String, required: true    
-    },
+      
+       
+      },
+
+
+
+
     responseDescription:{
         type: String, required: true   
     },
@@ -44,6 +51,13 @@ const ActionSchema = new mongoose.Schema({
     cause:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Cause'
+    },
+    actioncorrective:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Action'
+    },Document:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'DocumentStandarisation'
     }
         
     /* responseDescription?:string;
@@ -60,12 +74,14 @@ function validateAction(actionplan){
         refAction : Joi.string().required(),
         position:Joi.number().required(),
         status : Joi.string().required(),
-        description : Joi.string().required(),
+        description : Joi.string(),
        // actionplan:Joi.string().required(),
         responsableAction:Joi.string().required(),
        // typeAction:Joi.string().required()
-       dateResponse: Joi.string().required(),
-       cause:Joi.string()
+       dateResponse: Joi.date().required(),
+       cause:Joi.string(),
+       actioncorrective:Joi.string(),
+       Document:Joi.string()
     };
     return Joi.validate(actionplan,schema);
 }

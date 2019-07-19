@@ -4,8 +4,9 @@ const Joi =require('joi');
 
 const ProblemDescriptionSchema = new mongoose.Schema({
     actionplan:{
+        unique:true,
         type:mongoose.Schema.Types.ObjectId,
-        ref:'ActionPlan'
+        ref:'ActionPlan',
     },
     description:{
         type: String, required: true
@@ -17,7 +18,7 @@ const ProblemDescription = mongoose.model('ProblemDescription',ProblemDescriptio
 
 function validateActionPlan(problemDescription){
     const schema = {
-        actionplan:Joi.string().required(),
+      
         description:Joi.string().required()
     };
     return Joi.validate(problemDescription,schema);

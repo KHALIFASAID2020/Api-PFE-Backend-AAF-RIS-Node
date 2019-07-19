@@ -4,7 +4,56 @@ const {Typecompany} = require('../models/Typecompany');
 const {Defaut} = require('../models/Defaut');
 const {Company} = require('../models/Company');
 const {User}= require('../models/User');
+const nodeMailer = require('nodemailer');
 
+
+
+
+
+
+
+// file upload route
+const UploadImge =  (req, res) => {
+   
+	// console.log('req.file', req.file);
+	/* if (!req.file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
+		return res.status(400).json({ msg: 'only image files please'});
+	} */
+	res.status(201).send({ fileName: req.file.filename, file: req.file });
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const transporter = nodeMailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,  //true for 465 port, false for other ports
+    auth: {
+      user: 'aaf.ris.manager.2020@gmail.com',
+      pass: 'aaf.ris.manager.2020aaf.ris.manager.2020'
+    }
+  });
 
 const getGroupByTypeReclamation=(req,res,next)=>{
     
@@ -129,6 +178,9 @@ if(error) return res.status(400).send(error.details[0].message);
 
     const creator = await User.findById(req.body.creator);
     if (!creator) return res.status(400).send('Invalid User.'); 
+
+    const destination = await User.findById(req.body.destination);
+    if (!destination) return res.status(400).send('Invalid User.'); 
     
     /* const destination = await User.findById(req.body.destination);
     if (!destination) return res.status(400).send('Invalid User destination.'); 
@@ -151,9 +203,8 @@ let reclamation = new Reclamation({
     defaut:defaut._id,
      company:company._id,
         creator:creator._id,
-        destination:req.body.destination,
-        destinationencopy:req.body.destinationencopy
-
+        destination:destination._id
+        
         
 
         /* company: "5cdf2d735f147c0a848eafab"
@@ -168,6 +219,52 @@ typecomplaint: "5cd618fab9462327c832d57c" */
     
 });
 reclamation.save().then(result=>{
+
+    let subject = 'you have an Complaint' 
+    let htmlEmail = 'Hi '+ destination.lastname +' You have received an Complaint  '+ typecompany.type_company +
+    '  REF° :'+ req.body.refReclamation +
+    '  for response date :'+req.body.daterep +
+    '  Subject :'+req.body.description +
+    '  http://localhost:4200/inboxcomplaint/detailsInboxComplaint/'+result._id;
+    
+    /* You have received a corrective action type action REF: following Action Plan No. 23566 */
+      const mailOptions = {
+            from: '"AAF Tunisien Quality Portal" <aaf.ris.manager.2020@gmail.com>', // sender address
+            to: destination.email, // list of receivers
+            subject: subject, // Subject line
+            text: htmlEmail, // plain text body
+           // html: htmlEmail // html body
+          };
+          transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+              console.log(error);
+              res.status(400).send({success: false})
+            } else {
+              res.status(200).send({success: true});
+            }
+          }); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
     res.status(201).json({
         message : 'Reclamation Created',
@@ -215,8 +312,7 @@ const reclamation = Reclamation.findByIdAndUpdate(req.params.id,{
     defaut:defaut._id,
      company:company._id,
         creator:creator._id,
-        destination:req.body.destinationId,
-        destinationencopy:req.body.destinationencopy
+        destination:req.body.destinationId
 },{new:true}).then(result => {
     res.status(201).json({
         message : 'Reclamation Updated',
@@ -237,4 +333,4 @@ const reclamation = Reclamation.findByIdAndUpdate(req.params.id,{
 
 
 
-module.exports = {getAllReclamation,updateReclamation,getGroupByTypeReclamation,getCountAllReclamationByDestination,createReclamation,deleteReclamation,getAllReclamationByDestination,getAllReclamationByCreator,getAllReclamation,getById}
+module.exports = {getAllReclamation,UploadImge,updateReclamation,getGroupByTypeReclamation,getCountAllReclamationByDestination,createReclamation,deleteReclamation,getAllReclamationByDestination,getAllReclamationByCreator,getAllReclamation,getById}

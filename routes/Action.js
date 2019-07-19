@@ -4,6 +4,8 @@ const authorize = require('../_helpers/authorize');
 //var Role = require('../_helpers/role');
 var ActionController = require('../controllers/ActionController');
 /* GET users listing. */
+
+
 router.get('/getActions',ActionController.getActions);
 //updateActionByCreator
 router.put('/updateActionByCreator/:id',ActionController.updateActionByCreator);
@@ -15,6 +17,8 @@ router.get('/:id',ActionController.getById);
 router.put('/:id',ActionController.updateAction);
 //UpdateActionReceived
 router.put('/UpdateActionReceived/:id',ActionController.UpdateActionReceived);
+
+router.put('/updateStatusActionByCreator/:id',ActionController.updateStatusActionByCreator);
 
 //router.get('/:id',companyController.updateCompany);
  router.get('/AllContainementActionsByActionPlanId/:id',ActionController.AllContainementActionsByActionPlanId);

@@ -14,13 +14,10 @@ const  analysisMethodRouter= require('./routes/analysisMethod');
 const  causeRouter= require('./routes/cause');
 const ActionPlanRouter = require('./routes/ActionPlan');
 const ActionRouter = require('./routes/Action');
-const ActionCorretiveRouter= require('./routes/ActionCorrective');
 const GroupeRouter = require('./routes/GroupeResponsable');
-const PreventiveActionsRouter=require('./routes/PreventiveActions');
 //Action
 const CommandeRouter = require('./routes/Commande');
 //Reviewoftheeffectiveness
-const ReviewoftheeffectivenessRouter = require('./routes/ActionReviewoftheeffectiveness');
 const problemDescriptionRouter =require('./routes/ProblemDescription');
 const responsableActionrouter = require('./routes/ResponsableAction');
 const typeCompanyRouter =require('./routes/typeCompany');
@@ -67,12 +64,9 @@ app.use('/Action',ActionRouter);
 app.use('/Groupe',GroupeRouter);
 app.use('/problemdescription',problemDescriptionRouter);
 app.use('/responsableAction',responsableActionrouter);
-app.use('/Reviewoftheeffectiveness',ReviewoftheeffectivenessRouter);
 //ReviewoftheeffectivenessRouter
 //AddPreventiveActionsRouter
-app.use('/PreventiveActions',PreventiveActionsRouter);
 
-app.use('/ActionCorretive',ActionCorretiveRouter);
 app.use('/commande',CommandeRouter);
 //ActionRouter
 
