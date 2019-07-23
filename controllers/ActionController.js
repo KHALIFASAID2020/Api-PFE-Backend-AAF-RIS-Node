@@ -681,7 +681,7 @@ if (!responsableAction) return res.status(400).send('Invalid Responsable Action.
 
 
 
-  /*   const cron = require("node-cron");
+ /*   const cron = require("node-cron");
 
     cron.schedule("* * * * *", function() {
         console.log("---------------------");
@@ -693,12 +693,12 @@ if (!responsableAction) return res.status(400).send('Invalid Responsable Action.
             if(action){
               //  var day=dateFormat(action, "yyyy-mm-dd");
 
-                console.log('Mongoose date : ' +action)
+                console.log('Mongoose date : ' +action.status)
             }else{
                 console.log('Error')
             }
-            });   */
-
+            });  
+        }) */
             //ar d = Date(); 
     
             // Converting the number value to string 
